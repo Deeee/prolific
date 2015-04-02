@@ -15,6 +15,7 @@
 		5B29B0C61ACCC57F00FA0B77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B29B0C51ACCC57F00FA0B77 /* Images.xcassets */; };
 		5B29B0C91ACCC57F00FA0B77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B29B0C71ACCC57F00FA0B77 /* LaunchScreen.xib */; };
 		5B29B0D51ACCC57F00FA0B77 /* prolificTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0D41ACCC57F00FA0B77 /* prolificTests.m */; };
+		5B29B0E01ACCDC1900FA0B77 /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0DF1ACCDC1900FA0B77 /* AddBookViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		5B29B0CE1ACCC57F00FA0B77 /* prolificTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = prolificTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B29B0D31ACCC57F00FA0B77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B29B0D41ACCC57F00FA0B77 /* prolificTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prolificTests.m; sourceTree = "<group>"; };
+		5B29B0DE1ACCDC1900FA0B77 /* AddBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBookViewController.h; sourceTree = "<group>"; };
+		5B29B0DF1ACCDC1900FA0B77 /* AddBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBookViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +94,8 @@
 				5B29B0BF1ACCC57F00FA0B77 /* DetailViewController.h */,
 				5B29B0C01ACCC57F00FA0B77 /* DetailViewController.m */,
 				5B29B0C21ACCC57F00FA0B77 /* Main.storyboard */,
+				5B29B0DE1ACCDC1900FA0B77 /* AddBookViewController.h */,
+				5B29B0DF1ACCDC1900FA0B77 /* AddBookViewController.m */,
 				5B29B0C51ACCC57F00FA0B77 /* Images.xcassets */,
 				5B29B0C71ACCC57F00FA0B77 /* LaunchScreen.xib */,
 				5B29B0B51ACCC57F00FA0B77 /* Supporting Files */,
@@ -227,6 +232,7 @@
 				5B29B0BB1ACCC57F00FA0B77 /* AppDelegate.m in Sources */,
 				5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */,
 				5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */,
+				5B29B0E01ACCDC1900FA0B77 /* AddBookViewController.m in Sources */,
 				5B29B0C11ACCC57F00FA0B77 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

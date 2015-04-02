@@ -8,7 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-
+#import "AddBookViewController.h"
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
@@ -24,13 +24,19 @@
     }
 }
 
+- (void)viewInit {
+    self.title = @"Book";
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
+    self.navigationItem.leftBarButtonItem = addButton;
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self viewInit];
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
@@ -39,7 +45,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender {
+
+- (void)insertNewBook:(id)sender {
+    [self performSegueWithIdentifier:@"addBookSegue" sender:self];
     if (!self.objects) {
         self.objects = [[NSMutableArray alloc] init];
     }
