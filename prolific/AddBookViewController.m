@@ -12,6 +12,11 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *toolbar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *toolbarItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UITextField *booktitle;
+@property (weak, nonatomic) IBOutlet UITextField *author;
+@property (weak, nonatomic) IBOutlet UITextField *publisher;
+@property (weak, nonatomic) IBOutlet UITextField *categories;
+@property (weak, nonatomic) IBOutlet UIButton *submit;
 
 
 @end
@@ -35,5 +40,9 @@
 -(IBAction)clickOnDone:(id) sender {
     [[self presentingViewController] dismissViewControllerAnimated:NO completion:nil];
 
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [self.view endEditing:YES];
 }
 @end

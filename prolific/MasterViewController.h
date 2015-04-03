@@ -10,10 +10,11 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource>
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) DetailViewController *detailViewController;
-
+@property NSMutableURLRequest *originalRequest;
 
 @end
 

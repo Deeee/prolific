@@ -80,7 +80,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Arm-wq-HPj" style="IBUITableViewCellStyleDefault" id="WCw-Qf-5nD">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Arm-wq-HPj" style="IBUITableViewCellStyleDefault" id="WCw-Qf-5nD" customClass="LibraryCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
@@ -98,6 +98,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="bookTitle" destination="Arm-wq-HPj" id="bGz-5P-QHo"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail" id="6S0-TO-JiA"/>
                                 </connections>
                             </tableViewCell>
@@ -110,6 +111,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8"/>
                     <connections>
+                        <outlet property="tableView" destination="r7i-6Z-zg0" id="Clh-36-ym6"/>
                         <segue destination="Dvg-vp-DVT" kind="presentation" identifier="addBookSegue" id="vgg-M1-nZO"/>
                     </connections>
                 </tableViewController>
@@ -149,24 +151,70 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pXz-oU-uZ3">
+                                <rect key="frame" x="126" y="204" width="348" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NAi-y6-lT9">
+                                <rect key="frame" x="126" y="285" width="348" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M6k-Iu-LZj">
+                                <rect key="frame" x="126" y="369" width="348" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VCi-vC-tLH">
+                                <rect key="frame" x="276" y="452" width="49" height="30"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="pXz-oU-uZ3" firstAttribute="leading" secondItem="uHf-5I-lKO" secondAttribute="leading" id="2RG-aK-ue7"/>
+                            <constraint firstItem="M6k-Iu-LZj" firstAttribute="top" secondItem="NAi-y6-lT9" secondAttribute="bottom" constant="54" id="8aL-qb-gSv"/>
                             <constraint firstItem="0oE-SA-iEx" firstAttribute="leading" secondItem="989-m5-oMj" secondAttribute="leading" id="8ig-jO-uUj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0oE-SA-iEx" secondAttribute="trailing" constant="-16" id="9cz-IR-yhE"/>
                             <constraint firstItem="uHf-5I-lKO" firstAttribute="leading" secondItem="989-m5-oMj" secondAttribute="leadingMargin" constant="110" id="GEg-XX-QZR"/>
+                            <constraint firstItem="uHf-5I-lKO" firstAttribute="width" secondItem="NAi-y6-lT9" secondAttribute="width" id="IPu-ak-iHY"/>
                             <constraint firstItem="0oE-SA-iEx" firstAttribute="top" secondItem="bel-AU-Uf4" secondAttribute="bottom" id="MIg-Ii-WXO"/>
+                            <constraint firstItem="NAi-y6-lT9" firstAttribute="centerY" secondItem="989-m5-oMj" secondAttribute="centerY" id="NLc-d8-dYc"/>
+                            <constraint firstItem="M6k-Iu-LZj" firstAttribute="leading" secondItem="NAi-y6-lT9" secondAttribute="leading" id="SPM-gB-HT7"/>
+                            <constraint firstItem="uHf-5I-lKO" firstAttribute="width" secondItem="pXz-oU-uZ3" secondAttribute="width" id="Uoj-If-G3I"/>
+                            <constraint firstAttribute="centerX" secondItem="VCi-vC-tLH" secondAttribute="centerX" id="aIi-SL-m1W"/>
+                            <constraint firstItem="VCi-vC-tLH" firstAttribute="top" secondItem="M6k-Iu-LZj" secondAttribute="bottom" constant="53" id="aSu-Zv-s2A"/>
+                            <constraint firstItem="uHf-5I-lKO" firstAttribute="width" secondItem="M6k-Iu-LZj" secondAttribute="width" id="dYG-Ev-2co"/>
                             <constraint firstItem="uHf-5I-lKO" firstAttribute="top" secondItem="0oE-SA-iEx" secondAttribute="bottom" constant="62" id="gXk-dH-0jo"/>
                             <constraint firstAttribute="centerX" secondItem="uHf-5I-lKO" secondAttribute="centerX" id="ucY-nc-cPu"/>
+                            <constraint firstItem="pXz-oU-uZ3" firstAttribute="top" secondItem="uHf-5I-lKO" secondAttribute="bottom" constant="48" id="yha-J3-Rdc"/>
+                            <constraint firstItem="NAi-y6-lT9" firstAttribute="leading" secondItem="pXz-oU-uZ3" secondAttribute="leading" id="zPu-sl-d6u"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Gr2-F4-Ub3" appends="YES" id="jtD-hV-Vqs"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="author" destination="pXz-oU-uZ3" id="qoF-yJ-4kn"/>
+                        <outlet property="booktitle" destination="uHf-5I-lKO" id="Zpx-75-U3r"/>
+                        <outlet property="categories" destination="M6k-Iu-LZj" id="IMz-Av-X06"/>
                         <outlet property="doneButton" destination="kr9-dO-DEP" id="h0K-cH-fr3"/>
+                        <outlet property="publisher" destination="NAi-y6-lT9" id="zeY-P6-jP5"/>
+                        <outlet property="submit" destination="VCi-vC-tLH" id="q2O-gO-TGT"/>
                         <outlet property="toolbar" destination="0oE-SA-iEx" id="cu7-oY-C1d"/>
                         <outlet property="toolbarItem" destination="pEj-WF-VmN" id="vOR-GW-lMz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="udQ-vT-7OK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Gr2-F4-Ub3">
+                    <connections>
+                        <action selector="backgroundTap:" destination="Dvg-vp-DVT" id="d1i-le-H9h"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1556" y="-676"/>
         </scene>
