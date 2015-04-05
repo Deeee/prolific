@@ -13,5 +13,7 @@
 @interface LibraryCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UILabel *bookTitle;
 @property (nonatomic, strong) IBOutlet UILabel *bookAuthor;
+@property (weak, nonatomic) IBOutlet UILabel *title;
+@property (weak, nonatomic) IBOutlet UILabel *subtitle;
 - (void)loadWithData:(LibraryData *)bookData;
 @end

@@ -10,8 +10,14 @@
 @implementation LibraryCell
 @synthesize bookAuthor;
 @synthesize bookTitle;
+- (void)awakeFromNib
+{
+    // Initialization code
+}
+
 - (void)loadWithData:(LibraryData *)libraryData
 {
+    NSLog(@"changing title label at cell to %@",libraryData.title);
     self.bookTitle.text = libraryData.title;
     self.bookAuthor.text = libraryData.author;
 }

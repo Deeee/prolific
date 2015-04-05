@@ -11,14 +11,24 @@
 #import "AddBookViewController.h"
 #import "LibraryData.h"
 #import "LibraryCell.h"
+#import "LibraryAppDelegate.h"
+@class LibraryAppDelegate;
 @interface MasterViewController ()
+
 @property (nonatomic, strong) NSMutableArray *loadedLibraryData;
 
 @property NSMutableArray *objects;
-
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (weak, nonatomic) IBOutlet UIButton *actionSheet;
+@property NSMutableURLRequest *originalRequest;
 @end
 
-@implementation MasterViewController
+@implementation MasterViewController {
+    UIAlertController *alertController;
+    BOOL flagForDeletion;
+    NSIndexPath *currentIndexPath;
+}
 @synthesize originalRequest = _originalRequest;
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -37,6 +47,220 @@
 
 }
 
+- (IBAction)clickOnActionSheet:(id)sender {
+    alertController = [UIAlertController
+                       alertControllerWithTitle:@"Actions"
+                       message:@"Choose your action"
+                       preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *shareAction = [UIAlertAction
+                                  actionWithTitle:NSLocalizedString(@"Share", @"Share action")
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction *action)
+                                  {
+                                      NSLog(@"poping back!");
+                                  }];
+    [alertController addAction:shareAction];
+    UIAlertAction *refreshAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"Refresh", @"Refresh action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        NSLog(@"refreshing the table!!!");
+                                        [self fetchAndParseJson];
+                                    }];
+    [alertController addAction:refreshAction];
+    UIAlertAction *deleteAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Delete", @"Delete action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       UIAlertController *temp = [UIAlertController
+                                                                  alertControllerWithTitle:@"Confirm on delete"
+                                                                  message:@"Are you sure you want to clean all the books?"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                                       UIAlertAction *confirmAction = [UIAlertAction
+                                                                       actionWithTitle:NSLocalizedString(@"Confirm", @"Confirm action")
+                                                                       style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction *action)
+                                                                       {
+                                                                           [self deleteAllLibraryData];
+                                                                       }];
+                                       [temp addAction:confirmAction];
+                                       UIAlertAction *cancelAction = [UIAlertAction
+                                                                      actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                                                      style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction *action)
+                                                                      {
+                                                                      }];
+                                       [temp addAction:cancelAction];
+                                       [self performSelectorOnMainThread:@selector(showThisAlert:) withObject:temp waitUntilDone:NO];
+                                       
+                                       
+                                       
+                                   }];
+    [alertController addAction:deleteAction];
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                   }];
+    [alertController addAction:cancelAction];
+
+    [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
+}
+
+- (void) deleteAllLibraryData {
+    // Prepare for sending POST
+    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/clean"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    // Send POST
+    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        
+        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
+        
+        if ([urlResponse statusCode] >= 200 && responseData != nil) {
+            // Sign in success
+            flagForDeletion = true;
+            [self alertStatus:@"Delete all books succeed!" :@"Success" :1 :11];
+            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
+            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+        }
+        else {
+            
+            // Sign in fail alert
+            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
+            [self alertStatus:@"Delete failed" :errorMsg :1 :1];
+            
+            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            NSLog(@"Description: %@", [error localizedDescription]);
+            
+        }
+    }];
+    
+}
+
+- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
+{
+    if (mode == 1) {
+        NSLog(@"here");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                            message:msg
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil, nil];
+        alertView.tag = tag;
+        [alertView show];
+    }
+    else if (mode == 2){
+        NSLog(@"here");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                            message:msg
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Confirm", nil];
+        alertView.tag = tag;
+        [alertView show];
+        
+    }
+    else if (mode == 11) {
+        alertController = [UIAlertController
+                           alertControllerWithTitle:title
+                           message:msg
+                           preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                   }];
+        [alertController addAction:okAction];
+        [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
+    }
+    else {
+        NSLog(@"in successful checkout");
+        
+        alertController = [UIAlertController
+                           alertControllerWithTitle:@"Success"
+                           message:@"Checkedout succeed"
+                           preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"poping back!");
+                                   }];
+        [alertController addAction:okAction];
+        [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
+        
+    }
+    
+}
+
+- (void) setDeleteFlagTrue {
+    NSLog(@"in setdeleteflag true");
+    flagForDeletion = true;
+    [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+}
+
+- (BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
+    
+    // Prepare for sending POST
+    flagForDeletion = false;
+    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",urlString]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    // Send POST
+    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        
+        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
+        
+        if ([urlResponse statusCode] >= 200 && responseData != nil) {
+            // Sign in success
+            [self performSelectorOnMainThread:@selector(setDeleteFlagTrue) withObject:nil waitUntilDone:NO];
+            [self alertStatus:@"Delete succeed!" :@"Success" :1 :11];
+            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
+            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+        }
+        else {
+            
+            // Sign in fail alert
+            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
+            [self alertStatus:@"Delete failed" :errorMsg :1 :1];
+            
+            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            NSLog(@"Description: %@", [error localizedDescription]);
+            
+        }
+    }];
+    NSLog(@"returning bool %d, ture is %d",flagForDeletion, true);
+    return flagForDeletion;
+    
+    
+}
+
+
+-(void) showAlert {
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void) showThisAlert:(UIAlertController *) alert {
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Send a synchronous request
@@ -112,6 +336,7 @@
              willSendRequest: (NSURLRequest *)request
             redirectResponse: (NSURLResponse *)redirectResponse;
 {
+    NSLog(@"here in redirect");
     if (redirectResponse) {
         // The request you initialized the connection with should be kept as
         // _originalRequest.
@@ -135,7 +360,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        LibraryData *object = self.loadedLibraryData[indexPath.row];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -154,26 +379,32 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    LibraryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-//    static NSString *cellIdentifier = @"LibraryCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 //    LibraryCell *cell = nil;
-    
+//    LibraryCell *cell = (LibraryCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+
 //    if (cell == nil)
 //    {
 //        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
+//        NSLog(@"nib count %ld",[nib count]);
 //        cell = (LibraryCell *)[nib objectAtIndex:0];
 //    }
     
     LibraryData *libraryData = [self.loadedLibraryData objectAtIndex:[indexPath row]];
     
-    [cell loadWithData:libraryData];
-    
+//    [cell loadWithData:libraryData];
+//    cell.bookTitle.text = @"123123";
     cell.textLabel.text = libraryData.title;
+    cell.detailTextLabel.text = libraryData.author;
     return cell;
 //    NSDate *object = self.objects[indexPath.row];
 //    cell.textLabel.text = [object description];
 //    return cell;
+    
+    
+    
 }
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
@@ -182,8 +413,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        LibraryData *selectedData = [self.loadedLibraryData objectAtIndex:indexPath.row];
+        currentIndexPath = indexPath;
+        [self deleteLibraryDataAtUrl:[selectedData url]];
+        //        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }

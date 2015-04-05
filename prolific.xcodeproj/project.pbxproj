@@ -10,8 +10,9 @@
 		5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886891ACDBA5400568400 /* LibraryParser.m */; };
 		5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868C1ACDBA8200568400 /* LibraryData.m */; };
 		5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868F1ACE1C2400568400 /* LibraryCell.m */; };
+		5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886991AD09AF900568400 /* NSNull+Json.m */; };
 		5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0B71ACCC57F00FA0B77 /* main.m */; };
-		5B29B0BB1ACCC57F00FA0B77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0BA1ACCC57F00FA0B77 /* AppDelegate.m */; };
+		5B29B0BB1ACCC57F00FA0B77 /* LibraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0BA1ACCC57F00FA0B77 /* LibraryAppDelegate.m */; };
 		5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0BD1ACCC57F00FA0B77 /* MasterViewController.m */; };
 		5B29B0C11ACCC57F00FA0B77 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0C01ACCC57F00FA0B77 /* DetailViewController.m */; };
 		5B29B0C41ACCC57F00FA0B77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B29B0C21ACCC57F00FA0B77 /* Main.storyboard */; };
@@ -38,11 +39,13 @@
 		5B28868C1ACDBA8200568400 /* LibraryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryData.m; sourceTree = "<group>"; };
 		5B28868E1ACE1C2400568400 /* LibraryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryCell.h; sourceTree = "<group>"; };
 		5B28868F1ACE1C2400568400 /* LibraryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryCell.m; sourceTree = "<group>"; };
+		5B2886981AD09AF900568400 /* NSNull+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNull+Json.h"; path = "prolific/NSNull+Json.h"; sourceTree = "<group>"; };
+		5B2886991AD09AF900568400 /* NSNull+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNull+Json.m"; path = "prolific/NSNull+Json.m"; sourceTree = "<group>"; };
 		5B29B0B21ACCC57F00FA0B77 /* prolific.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prolific.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B29B0B61ACCC57F00FA0B77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B29B0B71ACCC57F00FA0B77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5B29B0B91ACCC57F00FA0B77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5B29B0BA1ACCC57F00FA0B77 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5B29B0B91ACCC57F00FA0B77 /* LibraryAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryAppDelegate.h; sourceTree = "<group>"; };
+		5B29B0BA1ACCC57F00FA0B77 /* LibraryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryAppDelegate.m; sourceTree = "<group>"; };
 		5B29B0BC1ACCC57F00FA0B77 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		5B29B0BD1ACCC57F00FA0B77 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		5B29B0BF1ACCC57F00FA0B77 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -78,6 +81,8 @@
 		5B29B0A91ACCC57F00FA0B77 = {
 			isa = PBXGroup;
 			children = (
+				5B2886981AD09AF900568400 /* NSNull+Json.h */,
+				5B2886991AD09AF900568400 /* NSNull+Json.m */,
 				5B29B0B41ACCC57F00FA0B77 /* prolific */,
 				5B29B0D11ACCC57F00FA0B77 /* prolificTests */,
 				5B29B0B31ACCC57F00FA0B77 /* Products */,
@@ -96,8 +101,8 @@
 		5B29B0B41ACCC57F00FA0B77 /* prolific */ = {
 			isa = PBXGroup;
 			children = (
-				5B29B0B91ACCC57F00FA0B77 /* AppDelegate.h */,
-				5B29B0BA1ACCC57F00FA0B77 /* AppDelegate.m */,
+				5B29B0B91ACCC57F00FA0B77 /* LibraryAppDelegate.h */,
+				5B29B0BA1ACCC57F00FA0B77 /* LibraryAppDelegate.m */,
 				5B29B0BC1ACCC57F00FA0B77 /* MasterViewController.h */,
 				5B29B0BD1ACCC57F00FA0B77 /* MasterViewController.m */,
 				5B28868E1ACE1C2400568400 /* LibraryCell.h */,
@@ -244,9 +249,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B29B0BB1ACCC57F00FA0B77 /* AppDelegate.m in Sources */,
+				5B29B0BB1ACCC57F00FA0B77 /* LibraryAppDelegate.m in Sources */,
 				5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */,
 				5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */,
+				5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */,
 				5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */,
 				5B29B0E01ACCDC1900FA0B77 /* AddBookViewController.m in Sources */,
 				5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */,

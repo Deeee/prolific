@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Liu Di. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "LibraryAppDelegate.h"
 #import "DetailViewController.h"
 
-@interface AppDelegate () <UISplitViewControllerDelegate>
+@interface LibraryAppDelegate () <UISplitViewControllerDelegate>
 
 @end
 
-@implementation AppDelegate
-
+@implementation LibraryAppDelegate
+@synthesize currentlySelectedLibraryData;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

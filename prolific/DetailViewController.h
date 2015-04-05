@@ -7,11 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+@class LibraryData;
+@interface DetailViewController : UIViewController<UIAlertViewDelegate>
 
-@interface DetailViewController : UIViewController
+@property (strong, nonatomic) LibraryData *detailItem;
+@property (weak, nonatomic) IBOutlet UILabel *author;
+@property (weak, nonatomic) IBOutlet UILabel *bookTitle;
+@property (weak, nonatomic) IBOutlet UILabel *publisher;
+@property (weak, nonatomic) IBOutlet UILabel *tags;
+@property (weak, nonatomic) IBOutlet UILabel *lastCheckedOut;
+@property (weak, nonatomic) IBOutlet UIButton *Checkout;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *actionSheet;
 
-@property (strong, nonatomic) id detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+-(void) showAlert;
 
 @end
 
