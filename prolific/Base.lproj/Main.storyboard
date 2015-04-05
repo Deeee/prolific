@@ -82,7 +82,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="5J8-W9-3LR">
+                        <barButtonItem key="rightBarButtonItem" id="5J8-W9-3LR">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6gJ-DR-lpy">
                                 <rect key="frame" x="-23" y="-15" width="133" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -131,8 +131,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="LW3-z6-r1l">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="7bK-jq-Zjz" id="dhT-Ci-VAe"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Arm-wq-HPj" detailTextLabel="OXE-yS-o50" rowHeight="68" style="IBUITableViewCellStyleSubtitle" id="WCw-Qf-5nD">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LibCell" textLabel="Arm-wq-HPj" detailTextLabel="OXE-yS-o50" rowHeight="68" style="IBUITableViewCellStyleSubtitle" id="WCw-Qf-5nD">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
@@ -182,11 +190,21 @@
                     </navigationItem>
                     <connections>
                         <outlet property="actionSheet" destination="6ni-3G-guq" id="hiN-af-ElW"/>
+                        <outlet property="searchDisplayController" destination="dvS-qR-ih1" id="UGC-he-64Q"/>
                         <outlet property="tableView" destination="r7i-6Z-zg0" id="Clh-36-ym6"/>
                         <segue destination="fmR-I2-vTl" kind="presentation" identifier="addBookSegue" id="vgg-M1-nZO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="dvS-qR-ih1">
+                    <connections>
+                        <outlet property="delegate" destination="7bK-jq-Zjz" id="gq0-jk-Ld2"/>
+                        <outlet property="searchBar" destination="LW3-z6-r1l" id="rJp-Kc-ujR"/>
+                        <outlet property="searchContentsController" destination="7bK-jq-Zjz" id="f3S-2h-j2t"/>
+                        <outlet property="searchResultsDataSource" destination="7bK-jq-Zjz" id="Y27-EO-q24"/>
+                        <outlet property="searchResultsDelegate" destination="7bK-jq-Zjz" id="qou-Jr-VSZ"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
         </scene>

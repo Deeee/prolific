@@ -16,8 +16,7 @@
 @interface MasterViewController ()
 
 @property (nonatomic, strong) NSMutableArray *loadedLibraryData;
-
-@property NSMutableArray *objects;
+@property (nonatomic, strong) NSArray *filterResult;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (weak, nonatomic) IBOutlet UIButton *actionSheet;
@@ -30,12 +29,17 @@
     NSIndexPath *currentIndexPath;
 }
 @synthesize originalRequest = _originalRequest;
+@synthesize filterResult = _filterResult;
 - (void)awakeFromNib {
     [super awakeFromNib];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [self fetchAndParseJson];
 }
 
 - (void)viewInit {
@@ -261,21 +265,18 @@
     [self presentViewController:alert animated:YES completion:nil];
     
 }
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"(title contains[c] %@) OR (categories contains[c] %@) OR (author contains[c] %@)", searchText,searchText,searchText];
+    _filterResult = [self.loadedLibraryData filteredArrayUsingPredicate:resultPredicate];
+    
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Send a synchronous request
-//    NSURLRequest * urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]];
-//    NSHTTPURLResponse *response = nil;
-//    NSError * error = nil;
-//    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
-//                                          returningResponse:&response
-//                                                      error:&error];
-//    NSLog(@"Response code: %ld", (long)[response statusCode]);
-//    
-//    if (error == nil)
-//    {
-//        // Parse data here
-//    }
     [self viewInit];
     // Do any additional setup after loading the view, typically from a nib.
 
@@ -291,9 +292,7 @@
 
 - (void)insertNewBook:(id)sender {
     [self performSegueWithIdentifier:@"addBookSegue" sender:self];
-    if (!self.objects) {
-        self.objects = [[NSMutableArray alloc] init];
-    }
+
 //    [self.objects insertObject:[NSDate date] atIndex:0];
 //    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 //    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -318,6 +317,9 @@
 
     NSString* newStr = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
     NSLog(@"after return data %@....",newStr);
+    if ([newStr isEqualToString:@""]) {
+        return;
+    }
     NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:returnData
                                                           options:0 error:&error];
     NSLog(@"json object array count %lu",(unsigned long)[jsonObject count]);
@@ -359,14 +361,31 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        LibraryData *object = self.loadedLibraryData[indexPath.row];
+        NSIndexPath *indexPath = nil;
+        LibraryData *libraryData = nil;
+        
+        if (self.searchDisplayController.active) {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            libraryData = [_filterResult objectAtIndex:indexPath.row];
+        } else {
+            indexPath = [self.tableView indexPathForSelectedRow];
+            libraryData = [_loadedLibraryData objectAtIndex:indexPath.row];
+        }
+        
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
+        [controller setDetailItem:libraryData];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
 }
+
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        LibraryData *object = self.loadedLibraryData[indexPath.row];
+//        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+//        [controller setDetailItem:object];
+//        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+//        controller.navigationItem.leftItemsSupplementBackButton = YES;
+//    }
 
 #pragma mark - Table View
 
@@ -375,22 +394,31 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.loadedLibraryData count];
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [_filterResult count];
+        
+    } else {
+        return [self.loadedLibraryData count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LibCell"];
 //    LibraryCell *cell = nil;
 //    LibraryCell *cell = (LibraryCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 
-//    if (cell == nil)
-//    {
+    if (cell == nil)
+    {
 //        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
 //        NSLog(@"nib count %ld",[nib count]);
-//        cell = (LibraryCell *)[nib objectAtIndex:0];
-//    }
-    
-    LibraryData *libraryData = [self.loadedLibraryData objectAtIndex:[indexPath row]];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LibCell"];
+    }
+    LibraryData *libraryData = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        libraryData = [_filterResult objectAtIndex:indexPath.row];
+    } else {
+        libraryData = [self.loadedLibraryData objectAtIndex:indexPath.row];
+    }
     
 //    [cell loadWithData:libraryData];
 //    cell.bookTitle.text = @"123123";
@@ -421,5 +449,16 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
 
 @end

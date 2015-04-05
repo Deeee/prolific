@@ -7,9 +7,8 @@
 //
 
 #import "AddBookViewController.h"
-
+#import "MasterViewController.h"
 @interface AddBookViewController ()
-@property (weak, nonatomic) IBOutlet UINavigationBar *toolbar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *toolbarItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UITextField *bookTitle;
@@ -25,7 +24,6 @@
 @implementation AddBookViewController {
     UIAlertController *alertController;
 }
-@synthesize toolbar;
 @synthesize author;
 @synthesize publisher;
 @synthesize categories;
@@ -53,6 +51,7 @@
         [self alertStatus:@"Leaving the screen with unsaved changes?" :@"Confirm your action" :0:2];
     }
     else {
+
     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     }
 

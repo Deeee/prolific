@@ -12,7 +12,7 @@
 
 @interface MasterViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource,NSURLConnectionDataDelegate>
 
-
+-(void) fetchAndParseJson;
 
 @end
 

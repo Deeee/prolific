@@ -183,6 +183,7 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
+                                       [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
                                    }];
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
