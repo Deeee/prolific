@@ -32,61 +32,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author" lineBreakMode="tailTruncation" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="pAc-zq-54X">
-                                <rect key="frame" x="16" y="97" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BookTitle" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKc-6y-dsZ">
-                                <rect key="frame" x="16" y="72" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Publisher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAY-R9-TOl">
-                                <rect key="frame" x="16" y="155" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Categories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXf-B2-Fmd">
-                                <rect key="frame" x="16" y="195" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LastCheckedOut" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1b-AS-bZ4">
-                                <rect key="frame" x="16" y="225" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gU7-S5-iZ0">
-                                <rect key="frame" x="202" y="378" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gU7-S5-iZ0">
+                                <rect key="frame" x="276" y="378" width="49" height="30"/>
+                                <state key="normal" title="Submit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="clickedOnCheckedout:" destination="JEX-9P-axG" eventType="touchUpInside" id="YeB-64-JRd"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LastCheckedOutBy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUK-Pb-GVT">
-                                <rect key="frame" x="16" y="254" width="150" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R9P-fc-tXW">
+                                <rect key="frame" x="16" y="72" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q9b-gJ-WDW">
+                                <rect key="frame" x="16" y="117" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5k5-mt-wmx">
+                                <rect key="frame" x="16" y="157" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qpn-aN-zav">
+                                <rect key="frame" x="16" y="195" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VSo-Ng-hTF">
+                                <rect key="frame" x="16" y="238" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oMb-Ql-JEt">
+                                <rect key="frame" x="16" y="276" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="oMb-Ql-JEt" secondAttribute="bottom" constant="72" id="089-Bh-kKt"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="qpn-aN-zav" secondAttribute="leading" id="3H1-MV-gfW"/>
+                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="top" secondItem="qpn-aN-zav" secondAttribute="bottom" constant="13" id="7QB-Jm-r6H"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="top" secondItem="Q9b-gJ-WDW" secondAttribute="bottom" constant="10" id="7vw-Ic-Hwc"/>
+                            <constraint firstItem="Q9b-gJ-WDW" firstAttribute="leading" secondItem="R9P-fc-tXW" secondAttribute="leading" id="9H8-SM-aok"/>
+                            <constraint firstAttribute="centerX" secondItem="VSo-Ng-hTF" secondAttribute="centerX" id="Bve-HK-yEh"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="BzV-fz-7Xq"/>
+                            <constraint firstAttribute="centerX" secondItem="Q9b-gJ-WDW" secondAttribute="centerX" id="FkD-Bp-byk"/>
+                            <constraint firstAttribute="centerX" secondItem="5k5-mt-wmx" secondAttribute="centerX" id="UOp-ux-9dO"/>
+                            <constraint firstItem="oMb-Ql-JEt" firstAttribute="top" secondItem="VSo-Ng-hTF" secondAttribute="bottom" constant="8" symbolic="YES" id="WsE-Vf-GYf"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="Q9b-gJ-WDW" secondAttribute="leading" id="ayB-27-2da"/>
+                            <constraint firstItem="qpn-aN-zav" firstAttribute="top" secondItem="5k5-mt-wmx" secondAttribute="bottom" constant="8" symbolic="YES" id="cq4-Xz-phM"/>
+                            <constraint firstAttribute="centerX" secondItem="R9P-fc-tXW" secondAttribute="centerX" id="jXh-pa-HYs"/>
+                            <constraint firstAttribute="centerX" secondItem="oMb-Ql-JEt" secondAttribute="centerX" id="oYX-ti-iZ2"/>
+                            <constraint firstAttribute="centerX" secondItem="qpn-aN-zav" secondAttribute="centerX" id="puw-Pd-Mwk"/>
+                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="leading" secondItem="qpn-aN-zav" secondAttribute="leading" id="sy5-9g-hDw"/>
+                            <constraint firstItem="Q9b-gJ-WDW" firstAttribute="top" secondItem="R9P-fc-tXW" secondAttribute="bottom" constant="15" id="tIQ-Xs-IdW"/>
+                            <constraint firstAttribute="centerX" secondItem="gU7-S5-iZ0" secondAttribute="centerX" id="zV1-Vl-BOX"/>
+                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="leading" secondItem="oMb-Ql-JEt" secondAttribute="leading" id="zn5-BK-aTw"/>
+                            <constraint firstItem="R9P-fc-tXW" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" symbolic="YES" id="ztb-Pf-LN1"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
                         <barButtonItem key="rightBarButtonItem" id="5J8-W9-3LR">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6gJ-DR-lpy">
-                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <rect key="frame" x="451" y="7" width="50" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="More">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -98,11 +114,12 @@
                     <connections>
                         <outlet property="Checkout" destination="gU7-S5-iZ0" id="P9F-QO-zUO"/>
                         <outlet property="actionSheet" destination="5J8-W9-3LR" id="aDY-Ua-5wp"/>
-                        <outlet property="author" destination="pAc-zq-54X" id="Dxu-mw-i9E"/>
-                        <outlet property="bookTitle" destination="uKc-6y-dsZ" id="fg6-io-0Qm"/>
-                        <outlet property="lastCheckedOut" destination="E1b-AS-bZ4" id="cPh-Bm-aKi"/>
-                        <outlet property="publisher" destination="lAY-R9-TOl" id="DaO-27-cjc"/>
-                        <outlet property="tags" destination="vXf-B2-Fmd" id="hk6-vP-97p"/>
+                        <outlet property="author" destination="Q9b-gJ-WDW" id="r6P-Ax-4on"/>
+                        <outlet property="bookTitle" destination="R9P-fc-tXW" id="mCZ-jZ-cFi"/>
+                        <outlet property="lastCheckedOut" destination="VSo-Ng-hTF" id="bmY-Zq-yRC"/>
+                        <outlet property="lastCheckedOutBy" destination="oMb-Ql-JEt" id="d1C-Zv-abR"/>
+                        <outlet property="publisher" destination="5k5-mt-wmx" id="Zns-vD-1Vp"/>
+                        <outlet property="tags" destination="qpn-aN-zav" id="8LF-F8-sdT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -175,11 +192,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="SfG-w7-Gu4">
+                        <barButtonItem key="rightBarButtonItem" id="SfG-w7-Gu4">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6ni-3G-guq">
-                                <rect key="frame" x="-23" y="-15" width="133" height="30"/>
+                                <rect key="frame" x="533" y="7" width="50" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="More">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -220,7 +237,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uHf-5I-lKO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uHf-5I-lKO">
                                 <rect key="frame" x="126" y="126" width="348" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="348" id="ti3-oq-ARM"/>
@@ -228,7 +245,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pXz-oU-uZ3">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pXz-oU-uZ3">
                                 <rect key="frame" x="126" y="204" width="348" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -260,6 +277,7 @@
                             <constraint firstItem="M6k-Iu-LZj" firstAttribute="top" secondItem="NAi-y6-lT9" secondAttribute="bottom" constant="54" id="8aL-qb-gSv"/>
                             <constraint firstItem="uHf-5I-lKO" firstAttribute="leading" secondItem="989-m5-oMj" secondAttribute="leadingMargin" constant="110" id="GEg-XX-QZR"/>
                             <constraint firstItem="uHf-5I-lKO" firstAttribute="width" secondItem="NAi-y6-lT9" secondAttribute="width" id="IPu-ak-iHY"/>
+                            <constraint firstItem="NAi-y6-lT9" firstAttribute="top" secondItem="pXz-oU-uZ3" secondAttribute="bottom" constant="51" id="LV2-af-11g"/>
                             <constraint firstItem="NAi-y6-lT9" firstAttribute="centerY" secondItem="989-m5-oMj" secondAttribute="centerY" id="NLc-d8-dYc"/>
                             <constraint firstItem="M6k-Iu-LZj" firstAttribute="leading" secondItem="NAi-y6-lT9" secondAttribute="leading" id="SPM-gB-HT7"/>
                             <constraint firstItem="uHf-5I-lKO" firstAttribute="width" secondItem="pXz-oU-uZ3" secondAttribute="width" id="Uoj-If-G3I"/>
@@ -275,7 +293,7 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="pEj-WF-VmN">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="kr9-dO-DEP">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="kr9-dO-DEP">
                             <connections>
                                 <action selector="clickOnDone:" destination="Dvg-vp-DVT" id="QrN-QX-zmt"/>
                             </connections>

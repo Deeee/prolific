@@ -30,11 +30,35 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         NSLog(@"in configureview");
+        self.bookTitle.borderStyle = UITextBorderStyleNone;
+        [self.bookTitle setBackgroundColor:[UIColor clearColor]];
+        [self.bookTitle setEnabled:NO];
         self.bookTitle.text = self.detailItem.title;
-        self.lastCheckedOut.text = [self.detailItem.lastCheckedOut description];
-        self.publisher.text = self.detailItem.publisher;
+        
+        self.author.borderStyle = UITextBorderStyleNone;
+        [self.author setBackgroundColor:[UIColor clearColor]];
+        [self.author setEnabled:NO];
         self.author.text = self.detailItem.author;
+        
+        self.lastCheckedOut.borderStyle = UITextBorderStyleNone;
+        [self.lastCheckedOut setBackgroundColor:[UIColor clearColor]];
+        [self.lastCheckedOut setEnabled:NO];
+        self.lastCheckedOut.text = [self.detailItem.lastCheckedOut description];
+        
+        self.publisher.borderStyle = UITextBorderStyleNone;
+        [self.publisher setBackgroundColor:[UIColor clearColor]];
+        [self.publisher setEnabled:NO];
+        self.publisher.text = self.detailItem.publisher;
+        
+        self.tags.borderStyle = UITextBorderStyleNone;
+        [self.tags setBackgroundColor:[UIColor clearColor]];
+        [self.tags setEnabled:NO];
         self.tags.text = self.detailItem.categories;
+        
+        self.lastCheckedOutBy.borderStyle = UITextBorderStyleNone;
+        [self.lastCheckedOutBy setBackgroundColor:[UIColor clearColor]];
+        [self.lastCheckedOutBy setEnabled:NO];
+        self.lastCheckedOutBy.text = self.detailItem.lastCheckedOutBy;
         
     }
 }
@@ -52,7 +76,6 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
-        //cancel clicked ...do your action
     }else{
         NSString *name = [[alertView textFieldAtIndex:0] text];
         if (![name isEqualToString:@""]) {
@@ -91,14 +114,11 @@
         NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
         
         if ([urlResponse statusCode] >= 200 && responseData != nil) {
-            // Sign in success
-            [self alertStatus:nil :nil :1 :3];
+            [self alertStatus:@"You have successfully checked out the book!" :@"Success" :1 :3];
             NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
             NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
         }
-        else {
-            
-            // Sign in fail alert
+        else {            
             NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
             [self alertStatus:@"CheckedOut failed" :errorMsg :1 :1];
             
@@ -149,6 +169,30 @@
     
 }
 
+- (void) restoreBackToNonEdit {
+    self.bookTitle.borderStyle = UITextBorderStyleNone;
+    [self.bookTitle setEnabled:NO];
+    
+    self.author.borderStyle = UITextBorderStyleNone;
+    [self.author setEnabled:NO];
+    
+    self.lastCheckedOut.borderStyle = UITextBorderStyleNone;
+    [self.lastCheckedOut setEnabled:NO];
+    
+    self.publisher.borderStyle = UITextBorderStyleNone;
+    [self.publisher setEnabled:NO];
+    
+    self.tags.borderStyle = UITextBorderStyleNone;
+    [self.tags setEnabled:NO];
+    
+    self.lastCheckedOutBy.borderStyle = UITextBorderStyleNone;
+    [self.lastCheckedOutBy setEnabled:NO];
+    
+    [self.Checkout removeTarget:nil action:NULL forControlEvents: UIControlEventTouchUpInside];
+    [self.Checkout addTarget:self action:@selector(clickedOnCheckedout:) forControlEvents:UIControlEventTouchUpInside];
+    [self.Checkout setTintColor:[UIColor blueColor]];
+}
+
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
@@ -172,6 +216,23 @@
         [alertView show];
         
     }
+    else if (mode == 12) {
+        alertController = [UIAlertController
+                           alertControllerWithTitle:title
+                           message:msg
+                           preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       [self restoreBackToNonEdit];
+                                       [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+                                   }];
+        [alertController addAction:okAction];
+        [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
+    }
     else if (mode == 11) {
         alertController = [UIAlertController
                            alertControllerWithTitle:title
@@ -192,8 +253,8 @@
         NSLog(@"in successful checkout");
         
         alertController = [UIAlertController
-                           alertControllerWithTitle:@"Success"
-                           message:@"Checkedout succeed"
+                           alertControllerWithTitle:title
+                           message:msg
                            preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction
@@ -210,6 +271,82 @@
     
 }
 
+
+-(IBAction)clickedOnEdit:(id)sender {
+    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",_detailItem.url]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSString *sendData;
+    
+    NSMutableString *updateRequest = [[NSMutableString alloc] init];
+    if (![self.bookTitle.text isEqualToString:self.detailItem.title]) {
+        if ([self.bookTitle.text isEqualToString:@""]) {
+            //fire no empty title
+        }
+        else  {
+            [updateRequest appendFormat:@"title=%@&",self.bookTitle.text];
+        }
+    }
+    if (![self.author.text isEqualToString:self.detailItem.author]) {
+        if ([self.author.text isEqualToString:@""]) {
+            //fire no empty title
+        }
+        else {
+            [updateRequest appendFormat:@"author=%@",self.author.text];
+        }
+    }
+    if (![self.publisher.text isEqualToString:self.detailItem.publisher]) {
+        [updateRequest appendFormat:@"publisher=%@",self.publisher.text];
+    }
+    if (![self.tags.text isEqualToString:self.detailItem.categories]) {
+        [updateRequest appendFormat:@"categories=%@",self.tags.text];
+    }
+    if (![self.lastCheckedOut.text isEqualToString:self.detailItem.lastCheckedOut]) {
+        [updateRequest appendFormat:@"lastCheckedOut=%@",self.lastCheckedOut.text];
+    }
+    if (![self.lastCheckedOutBy.text isEqualToString:self.detailItem.lastCheckedOutBy]) {
+        [updateRequest appendFormat:@"lastCheckedOutBy=%@",self.lastCheckedOutBy.text];
+    }
+    if ([updateRequest isEqualToString:@""]) {
+        [self restoreBackToNonEdit];
+        return;
+    }
+    if ([updateRequest characterAtIndex:([updateRequest length] - 1)] == '&') {
+        NSLog(@"last character is %c",[updateRequest characterAtIndex:([updateRequest length] - 1)]);
+        sendData = [updateRequest substringToIndex:[updateRequest length] - 1];
+    }
+    else {
+        sendData = [NSString stringWithString:updateRequest];
+    }
+    [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPMethod:@"PUT"];
+    NSLog(@"sending request %@",sendData);
+    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        
+        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
+        
+        if ([urlResponse statusCode] >= 200 && responseData != nil) {
+            // Sign in success
+            [self alertStatus:@"You have successfully edited the information about this book!" :@"Success" :1 :12];
+            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
+            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+        }
+        else {
+            
+            // Sign in fail alert
+            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
+            [self alertStatus:@"Edited failed" :errorMsg :1 :1];
+            
+            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            NSLog(@"Description: %@", [error localizedDescription]);
+            
+        }
+    }];
+
+}
+
 -(IBAction)clickedOnActionSheet:(id)sender {
     alertController = [UIAlertController
                        alertControllerWithTitle:@"Actions"
@@ -221,9 +358,37 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
-                                   NSLog(@"poping back!");
+
                                }];
     [alertController addAction:shareAction];
+    UIAlertAction *editAction = [UIAlertAction
+                                  actionWithTitle:NSLocalizedString(@"Edit", @"Edit action")
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction *action)
+                                  {
+                                      self.bookTitle.borderStyle = UITextBorderStyleBezel;
+                                      [self.bookTitle setEnabled:YES];
+                                      
+                                      self.author.borderStyle = UITextBorderStyleBezel;
+                                      [self.author setEnabled:YES];
+                                      
+                                      self.lastCheckedOut.borderStyle = UITextBorderStyleBezel;
+                                      [self.lastCheckedOut setEnabled:YES];
+                                      
+                                      self.publisher.borderStyle = UITextBorderStyleBezel;
+                                      [self.publisher setEnabled:YES];
+                                      
+                                      self.tags.borderStyle = UITextBorderStyleBezel;
+                                      [self.tags setEnabled:YES];
+                                      
+                                      self.lastCheckedOutBy.borderStyle = UITextBorderStyleBezel;
+                                      [self.lastCheckedOutBy setEnabled:YES];
+                                      
+                                      [self.Checkout removeTarget:nil action:NULL forControlEvents: UIControlEventTouchUpInside];
+                                      [self.Checkout addTarget:self action:@selector(clickedOnEdit:) forControlEvents:UIControlEventTouchUpInside];
+                                      [self.Checkout setTintColor:[UIColor redColor]];
+                                  }];
+    [alertController addAction:editAction];
     UIAlertAction *deleteAction = [UIAlertAction
                                   actionWithTitle:NSLocalizedString(@"Delete", @"Delete action")
                                   style:UIAlertActionStyleDefault
