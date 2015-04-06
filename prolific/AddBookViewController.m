@@ -76,6 +76,8 @@
         sendData = [sendData stringByAppendingString:[NSString stringWithFormat:@"&publisher=%@",[self.publisher text]]];
         [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
         [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        NSLog(@"locate sendata %@",sendData);
         // Send POST
         [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
 

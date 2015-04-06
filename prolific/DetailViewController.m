@@ -107,6 +107,7 @@
     sendData = [sendData stringByAppendingString:[NSString stringWithFormat:@"&lastCheckedOut=%@",dateWithFormat]];
     [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
     [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSLog(@"sending request %@",sendData);
     // Send POST
     [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
@@ -325,6 +326,7 @@
     }
     [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
     [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSLog(@"sending request %@",sendData);
     [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
         
