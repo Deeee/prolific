@@ -11,6 +11,7 @@
 		5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868C1ACDBA8200568400 /* LibraryData.m */; };
 		5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868F1ACE1C2400568400 /* LibraryCell.m */; };
 		5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886991AD09AF900568400 /* NSNull+Json.m */; };
+		5B28869E1AD2598700568400 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B28869D1AD2598700568400 /* bg.png */; };
 		5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0B71ACCC57F00FA0B77 /* main.m */; };
 		5B29B0BB1ACCC57F00FA0B77 /* LibraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0BA1ACCC57F00FA0B77 /* LibraryAppDelegate.m */; };
 		5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0BD1ACCC57F00FA0B77 /* MasterViewController.m */; };
@@ -41,6 +42,7 @@
 		5B28868F1ACE1C2400568400 /* LibraryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryCell.m; sourceTree = "<group>"; };
 		5B2886981AD09AF900568400 /* NSNull+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNull+Json.h"; path = "prolific/NSNull+Json.h"; sourceTree = "<group>"; };
 		5B2886991AD09AF900568400 /* NSNull+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNull+Json.m"; path = "prolific/NSNull+Json.m"; sourceTree = "<group>"; };
+		5B28869D1AD2598700568400 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		5B29B0B21ACCC57F00FA0B77 /* prolific.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prolific.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B29B0B61ACCC57F00FA0B77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B29B0B71ACCC57F00FA0B77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				5B2886881ACDBA5400568400 /* LibraryParser.h */,
 				5B2886891ACDBA5400568400 /* LibraryParser.m */,
 				5B28868B1ACDBA8200568400 /* LibraryData.h */,
+				5B28869D1AD2598700568400 /* bg.png */,
 				5B28868C1ACDBA8200568400 /* LibraryData.m */,
 				5B29B0BF1ACCC57F00FA0B77 /* DetailViewController.h */,
 				5B29B0C01ACCC57F00FA0B77 /* DetailViewController.m */,
@@ -231,6 +234,7 @@
 			files = (
 				5B29B0C41ACCC57F00FA0B77 /* Main.storyboard in Resources */,
 				5B29B0C91ACCC57F00FA0B77 /* LaunchScreen.xib in Resources */,
+				5B28869E1AD2598700568400 /* bg.png in Resources */,
 				5B29B0C61ACCC57F00FA0B77 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

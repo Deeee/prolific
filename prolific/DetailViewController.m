@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "LibraryAppDelegate.h"
+#import <Social/Social.h>
 #import "LibraryData.h"
 @interface DetailViewController ()
 @end
@@ -228,7 +229,10 @@
                                    handler:^(UIAlertAction *action)
                                    {
                                        [self restoreBackToNonEdit];
-                                       [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+                                       UIViewController *vc = [self presentingViewController];
+                                       [vc dismissViewControllerAnimated:YES completion:nil];
+//                                       [self                                   performSelectorOnMainThread:[self.navigationController.navigationItem.leftBarButtonItem action] withObject:nil waitUntilDone:NO];
+//                                       [self dismissViewControllerAnimated:YES completion:nil];
                                    }];
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
@@ -347,20 +351,48 @@
 
 }
 
+- (IBAction)postToFacebook:(id)sender {
+//    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        
+        [controller setInitialText:[NSString stringWithFormat:@"%@, I love this book!!",_detailItem.title]];
+        [self presentViewController:controller animated:YES completion:Nil];
+//    }
+}
+
+- (IBAction)postToTwitter:(id)sender {
+//    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+//    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [tweetSheet setInitialText:[NSString stringWithFormat:@"%@, I love this book!!",_detailItem.title]];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+//    }
+}
+
 -(IBAction)clickedOnActionSheet:(id)sender {
     alertController = [UIAlertController
                        alertControllerWithTitle:@"Actions"
                        message:@"Choose your action"
                        preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction *shareAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"Share", @"Share action")
+    UIAlertAction *shareFBAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"Share On FaceBook", @"Share Facebook action")
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
-
+                                   [self performSelectorOnMainThread:@selector(postToFacebook:) withObject:nil waitUntilDone:NO];
                                }];
-    [alertController addAction:shareAction];
+    [alertController addAction:shareFBAction];
+    UIAlertAction *shareTTAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"Share On Twitter", @"Share Twitter action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+
+                                        [self performSelectorOnMainThread:@selector(postToTwitter:) withObject:nil waitUntilDone:NO];
+                                    }];
+    [alertController addAction:shareTTAction];
     UIAlertAction *editAction = [UIAlertAction
                                   actionWithTitle:NSLocalizedString(@"Edit", @"Edit action")
                                   style:UIAlertActionStyleDefault

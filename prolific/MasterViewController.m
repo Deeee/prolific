@@ -21,6 +21,9 @@
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (weak, nonatomic) IBOutlet UIButton *actionSheet;
 @property NSMutableURLRequest *originalRequest;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UIImageView *blurredImageView;
+@property (nonatomic, assign) CGFloat screenHeight;
 @end
 
 @implementation MasterViewController {
@@ -36,6 +39,8 @@
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.alpha = .3;
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -56,15 +61,6 @@
                        alertControllerWithTitle:@"Actions"
                        message:@"Choose your action"
                        preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction *shareAction = [UIAlertAction
-                                  actionWithTitle:NSLocalizedString(@"Share", @"Share action")
-                                  style:UIAlertActionStyleDefault
-                                  handler:^(UIAlertAction *action)
-                                  {
-                                      NSLog(@"poping back!");
-                                  }];
-    [alertController addAction:shareAction];
     UIAlertAction *refreshAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(@"Refresh", @"Refresh action")
                                     style:UIAlertActionStyleDefault
@@ -152,7 +148,6 @@
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
-        NSLog(@"here");
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
                                                            delegate:self
@@ -162,7 +157,6 @@
         [alertView show];
     }
     else if (mode == 2){
-        NSLog(@"here");
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
                                                            delegate:self
@@ -188,8 +182,6 @@
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
     }
     else {
-        NSLog(@"in successful checkout");
-        
         alertController = [UIAlertController
                            alertControllerWithTitle:@"Success"
                            message:@"Checkedout succeed"
@@ -200,7 +192,7 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                       NSLog(@"poping back!");
+                                       
                                    }];
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
@@ -210,7 +202,6 @@
 }
 
 - (void) setDeleteFlagTrue {
-    NSLog(@"in setdeleteflag true");
     flagForDeletion = true;
     [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -270,12 +261,46 @@
 {
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"(title contains[c] %@) OR (categories contains[c] %@) OR (author contains[c] %@)", searchText,searchText,searchText];
     _filterResult = [self.loadedLibraryData filteredArrayUsingPredicate:resultPredicate];
+    NSLog(@"in filter content loadeddata count %ld, result count %ld",[self.loadedLibraryData count],[_filterResult count]);
+
     
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
+    
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    
+    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [gaussianBlurFilter setDefaults];
+    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[tempImageView.image CGImage]] forKey:kCIInputImageKey];
+    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
+    
+    CIImage *outputImage = [gaussianBlurFilter outputImage];
+    CIContext *context   = [CIContext contextWithOptions:nil];
+    CGRect rect          = [outputImage extent];
+    
+    // these three lines ensure that the final image is the same size
+    
+    rect.origin.x        += (rect.size.width  - tempImageView.image.size.width ) / 2;
+    rect.origin.y        += (rect.size.height - tempImageView.image.size.height) / 2;
+    rect.size            = tempImageView.image.size;
+    
+    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
+    UIImage *image       = [UIImage imageWithCGImage:cgimg];
+    tempImageView = [tempImageView initWithImage:image];
+    [tempImageView setFrame:self.tableView.frame];
+    self.backgroundImageView = tempImageView;
+    self.tableView.backgroundView = tempImageView;
+    UIImageView *newView = [[UIImageView alloc] initWithImage:image];
+    [self.searchDisplayController.searchResultsTableView setBackgroundView:newView];
+    [[UISearchBar appearance] setAlpha:0.5];
+    [[UISearchBar appearance] setBackgroundColor:[UIColor blackColor]];
+//    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
     // Send a synchronous request
     [self viewInit];
     // Do any additional setup after loading the view, typically from a nib.
@@ -292,47 +317,55 @@
 
 - (void)insertNewBook:(id)sender {
     [self performSegueWithIdentifier:@"addBookSegue" sender:self];
-
-//    [self.objects insertObject:[NSDate date] atIndex:0];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
--(void) fetchAndParseJson {
-    NSLog(@"in fectch and parse");
+- (void)reloadTableWithData:(NSData *)responseData {
     NSError *error = nil;
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    [[NSURLCache sharedURLCache] setMemoryCapacity:0];
-//    [[NSURLCache sharedURLCache] setDiskCapacity:0];
-    NSURL *url = [NSURL URLWithString:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/books" ];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    _originalRequest = request;
-    [request setURL:url];
-    [request setHTTPMethod:@"GET"];
-    NSHTTPURLResponse *response = nil;
-
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSLog(@"Response code: %ld", (long)[response statusCode]);
-    
-
-    NSString* newStr = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    NSLog(@"after return data %@....",newStr);
-    if ([newStr isEqualToString:@""]) {
-        return;
-    }
-    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:returnData
-                                                          options:0 error:&error];
-    NSLog(@"json object array count %lu",(unsigned long)[jsonObject count]);
-// TODO: ADD error test
+    NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
     [self.loadedLibraryData removeAllObjects];
     for (NSDictionary *bookDict in jsonObject) {
         LibraryData *libraryData = [[LibraryData alloc] init];
         [libraryData loadWithDictionary:bookDict];
         [self.loadedLibraryData addObject:libraryData];
-        NSLog(@"loading %@",[libraryData title]);
-
     }
     [self.tableView reloadData];
+}
+
+-(void) fetchAndParseJson {
+    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    NSLog(@"in fectch and parse");
+    NSURL *url = [NSURL URLWithString:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/books" ];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    _originalRequest = request;
+    [request setURL:url];
+    [request setHTTPMethod:@"GET"];
+
+    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        
+        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
+        NSString* newStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+
+        if ([urlResponse statusCode] >= 200 && responseData != nil) {
+            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
+            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            
+            if (![newStr isEqualToString:@""]) {
+                [self performSelectorOnMainThread:@selector(reloadTableWithData:) withObject:responseData waitUntilDone:NO];
+            }
+
+        }
+        else {
+            
+            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
+            [self alertStatus:@"Load table failed" :errorMsg :1 :1];
+            
+            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            NSLog(@"Description: %@", [error localizedDescription]);
+            
+        }
+    }];
 }
 - (NSURLRequest *)connection: (NSURLConnection *)connection
              willSendRequest: (NSURLRequest *)request
@@ -415,6 +448,7 @@
     }
     LibraryData *libraryData = nil;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
+        NSLog(@"preparing display filter result, count %ld",[_filterResult count]);
         libraryData = [_filterResult objectAtIndex:indexPath.row];
     } else {
         libraryData = [self.loadedLibraryData objectAtIndex:indexPath.row];
@@ -423,7 +457,10 @@
 //    [cell loadWithData:libraryData];
 //    cell.bookTitle.text = @"123123";
     cell.textLabel.text = libraryData.title;
+    cell.textLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.text = libraryData.author;
+    cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 //    NSDate *object = self.objects[indexPath.row];
 //    cell.textLabel.text = [object description];
