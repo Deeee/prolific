@@ -12,6 +12,8 @@
 #import "LibraryData.h"
 #import "LibraryCell.h"
 #import "LibraryAppDelegate.h"
+#import "UIImage+Resize.h"
+
 @class LibraryAppDelegate;
 @interface MasterViewController ()
 
@@ -30,6 +32,10 @@
     UIAlertController *alertController;
     BOOL flagForDeletion;
     NSIndexPath *currentIndexPath;
+    UIImage *userImage;
+    BOOL isBlurred;
+    NSString *blurButtonTitle;
+    NSString *currentImageName;
 }
 @synthesize originalRequest = _originalRequest;
 @synthesize filterResult = _filterResult;
@@ -41,19 +47,114 @@
     }
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.navigationBar.alpha = .3;
+    [[UISearchBar appearance] setAlpha:0.5];
+    [[UISearchBar appearance] setBackgroundColor:[UIColor blackColor]];
+    
+    isBlurred = YES;
+    blurButtonTitle = @"Set Blur Off";
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    userImage = tempImageView.image;
+    self.backgroundImageView = tempImageView;
+    [self backGroundSet];
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     [self fetchAndParseJson];
 }
 
+-(void) backGroundBlur:(UIImageView *)tempImageView {
+    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [gaussianBlurFilter setDefaults];
+    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[userImage CGImage]] forKey:kCIInputImageKey];
+    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
+    
+    CIImage *outputImage = [gaussianBlurFilter outputImage];
+    CIContext *context   = [CIContext contextWithOptions:nil];
+    CGRect rect          = [outputImage extent];
+    
+    // these three lines ensure that the final image is the same size
+    
+    rect.origin.x        += (rect.size.width  - tempImageView.image.size.width ) / 2;
+    rect.origin.y        += (rect.size.height - tempImageView.image.size.height) / 2;
+    rect.size            = tempImageView.image.size;
+    
+    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
+    UIImage *image       = [UIImage imageWithCGImage:cgimg];
+    tempImageView = [tempImageView initWithImage:image];
+    [tempImageView setFrame:self.tableView.frame];
+    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
+    self.backgroundImageView = tempImageView;
+    self.tableView.backgroundView = tempImageView;
+}
+
+-(void ) backGroundSet {
+    //if user doesnt have image
+    UIImageView *tempImageView = self.backgroundImageView;
+    UIImage *image;
+    if (isBlurred == YES) {
+        [self backGroundBlur:tempImageView];
+    }
+    else {
+        tempImageView.image = userImage;
+        self.backgroundImageView.image = userImage;
+        [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
+        self.backgroundImageView = tempImageView;
+        self.tableView.backgroundView = tempImageView;
+
+    }
+//    UIImageView *newView = [[UIImageView alloc] initWithImage:image];
+//    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
+//    self.backgroundImageView = tempImageView;
+//    self.tableView.backgroundView = tempImageView;
+
+}
+
 - (void)viewInit {
-    self.title = @"Book";
+    self.title = @"Library";
+    
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
     self.navigationItem.leftBarButtonItem = addButton;
+    
+    
     self.loadedLibraryData = [[NSMutableArray alloc] init];
+    
+
     [self fetchAndParseJson];
 
+}
+
+-(void)takePhoto {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+#if TARGET_IPHONE_SIMULATOR
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+#else
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+#endif
+    imagePickerController.editing = YES;
+    imagePickerController.delegate = (id)self;
+    
+    [self presentModalViewController:imagePickerController animated:YES];
+}
+
+#pragma mark - Image picker delegate methdos
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    // Resize the image from the camera
+    UIImage *scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
+    // Crop the image to a square (yikes, fancy!)
+    UIImage *croppedImage = [scaledImage croppedImage:CGRectMake((scaledImage.size.width -self.backgroundImageView.frame.size.width)/2, (scaledImage.size.height -self.backgroundImageView.frame.size.height)/2, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height)];
+    // Show the photo on the screen
+    self.backgroundImageView.image = croppedImage;
+    userImage = croppedImage;
+    if (isBlurred == YES) {
+        [self backGroundBlur:self.backgroundImageView];
+    }
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)clickOnActionSheet:(id)sender {
@@ -66,10 +167,35 @@
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction *action)
                                     {
-                                        NSLog(@"refreshing the table!!!");
                                         [self fetchAndParseJson];
                                     }];
     [alertController addAction:refreshAction];
+    UIAlertAction *changeBackGroundAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"Change Background", @"Change Background action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        NSLog(@"refreshing the table!!!");
+                                        [self takePhoto];
+                                    }];
+    [alertController addAction:changeBackGroundAction];
+    UIAlertAction *blurredAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(blurButtonTitle, @"Blur action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        if (isBlurred == YES) {
+                                            isBlurred = NO;
+                                            blurButtonTitle = @"Set Blur On";
+                                        }
+                                        else {
+                                            isBlurred = YES;
+                                            blurButtonTitle = @"Set Blur Off";
+                                        }
+                                        [self backGroundSet];
+                                        
+                                    }];
+    [alertController addAction:blurredAction];
     UIAlertAction *deleteAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"Delete", @"Delete action")
                                    style:UIAlertActionStyleDefault
@@ -261,7 +387,7 @@
 {
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"(title contains[c] %@) OR (categories contains[c] %@) OR (author contains[c] %@)", searchText,searchText,searchText];
     _filterResult = [self.loadedLibraryData filteredArrayUsingPredicate:resultPredicate];
-    NSLog(@"in filter content loadeddata count %ld, result count %ld",[self.loadedLibraryData count],[_filterResult count]);
+    NSLog(@"in filter content loadeddata count %ld, result count %ld",(unsigned long)[self.loadedLibraryData count],(unsigned long)[_filterResult count]);
 
     
 }
@@ -273,33 +399,7 @@
     
     
     
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    
-    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [gaussianBlurFilter setDefaults];
-    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[tempImageView.image CGImage]] forKey:kCIInputImageKey];
-    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
-    
-    CIImage *outputImage = [gaussianBlurFilter outputImage];
-    CIContext *context   = [CIContext contextWithOptions:nil];
-    CGRect rect          = [outputImage extent];
-    
-    // these three lines ensure that the final image is the same size
-    
-    rect.origin.x        += (rect.size.width  - tempImageView.image.size.width ) / 2;
-    rect.origin.y        += (rect.size.height - tempImageView.image.size.height) / 2;
-    rect.size            = tempImageView.image.size;
-    
-    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
-    UIImage *image       = [UIImage imageWithCGImage:cgimg];
-    tempImageView = [tempImageView initWithImage:image];
-    [tempImageView setFrame:self.tableView.frame];
-    self.backgroundImageView = tempImageView;
-    self.tableView.backgroundView = tempImageView;
-    UIImageView *newView = [[UIImageView alloc] initWithImage:image];
-    [self.searchDisplayController.searchResultsTableView setBackgroundView:newView];
-    [[UISearchBar appearance] setAlpha:0.5];
-    [[UISearchBar appearance] setBackgroundColor:[UIColor blackColor]];
+
 //    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
     // Send a synchronous request
     [self viewInit];

@@ -41,7 +41,7 @@
                                     <action selector="clickedOnCheckedout:" destination="JEX-9P-axG" eventType="touchUpInside" id="YeB-64-JRd"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R9P-fc-tXW">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="R9P-fc-tXW">
                                 <rect key="frame" x="16" y="72" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -74,26 +74,26 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="oMb-Ql-JEt" secondAttribute="bottom" constant="72" id="089-Bh-kKt"/>
-                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="qpn-aN-zav" secondAttribute="leading" id="3H1-MV-gfW"/>
-                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="top" secondItem="qpn-aN-zav" secondAttribute="bottom" constant="13" id="7QB-Jm-r6H"/>
-                            <constraint firstItem="5k5-mt-wmx" firstAttribute="top" secondItem="Q9b-gJ-WDW" secondAttribute="bottom" constant="10" id="7vw-Ic-Hwc"/>
-                            <constraint firstItem="Q9b-gJ-WDW" firstAttribute="leading" secondItem="R9P-fc-tXW" secondAttribute="leading" id="9H8-SM-aok"/>
-                            <constraint firstAttribute="centerX" secondItem="VSo-Ng-hTF" secondAttribute="centerX" id="Bve-HK-yEh"/>
-                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="BzV-fz-7Xq"/>
+                            <constraint firstItem="oMb-Ql-JEt" firstAttribute="top" secondItem="VSo-Ng-hTF" secondAttribute="bottom" constant="8" symbolic="YES" id="907-Bt-YCl"/>
                             <constraint firstAttribute="centerX" secondItem="Q9b-gJ-WDW" secondAttribute="centerX" id="FkD-Bp-byk"/>
-                            <constraint firstAttribute="centerX" secondItem="5k5-mt-wmx" secondAttribute="centerX" id="UOp-ux-9dO"/>
-                            <constraint firstItem="oMb-Ql-JEt" firstAttribute="top" secondItem="VSo-Ng-hTF" secondAttribute="bottom" constant="8" symbolic="YES" id="WsE-Vf-GYf"/>
-                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="Q9b-gJ-WDW" secondAttribute="leading" id="ayB-27-2da"/>
-                            <constraint firstItem="qpn-aN-zav" firstAttribute="top" secondItem="5k5-mt-wmx" secondAttribute="bottom" constant="8" symbolic="YES" id="cq4-Xz-phM"/>
-                            <constraint firstAttribute="centerX" secondItem="R9P-fc-tXW" secondAttribute="centerX" id="jXh-pa-HYs"/>
-                            <constraint firstAttribute="centerX" secondItem="oMb-Ql-JEt" secondAttribute="centerX" id="oYX-ti-iZ2"/>
-                            <constraint firstAttribute="centerX" secondItem="qpn-aN-zav" secondAttribute="centerX" id="puw-Pd-Mwk"/>
-                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="leading" secondItem="qpn-aN-zav" secondAttribute="leading" id="sy5-9g-hDw"/>
-                            <constraint firstItem="Q9b-gJ-WDW" firstAttribute="top" secondItem="R9P-fc-tXW" secondAttribute="bottom" constant="15" id="tIQ-Xs-IdW"/>
+                            <constraint firstItem="qpn-aN-zav" firstAttribute="leading" secondItem="VSo-Ng-hTF" secondAttribute="leading" id="Hch-Zj-09d"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="qpn-aN-zav" secondAttribute="leading" id="Hga-ob-6W0"/>
+                            <constraint firstItem="oMb-Ql-JEt" firstAttribute="trailing" secondItem="VSo-Ng-hTF" secondAttribute="trailing" id="LPS-1C-59x"/>
+                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="oMb-Ql-JEt" secondAttribute="bottom" constant="72" id="Num-50-Gpf"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="leading" secondItem="Q9b-gJ-WDW" secondAttribute="leading" id="O8p-G3-mhH"/>
+                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="top" secondItem="qpn-aN-zav" secondAttribute="bottom" constant="13" id="PG1-59-gdk"/>
+                            <constraint firstItem="R9P-fc-tXW" firstAttribute="trailing" secondItem="Q9b-gJ-WDW" secondAttribute="trailing" id="Plj-NB-ZAX"/>
+                            <constraint firstItem="R9P-fc-tXW" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" symbolic="YES" id="d8i-vU-yfl"/>
+                            <constraint firstItem="qpn-aN-zav" firstAttribute="top" secondItem="5k5-mt-wmx" secondAttribute="bottom" constant="8" symbolic="YES" id="dIy-Mc-goE"/>
+                            <constraint firstItem="qpn-aN-zav" firstAttribute="trailing" secondItem="VSo-Ng-hTF" secondAttribute="trailing" id="fY5-tw-1D1"/>
+                            <constraint firstItem="R9P-fc-tXW" firstAttribute="leading" secondItem="Q9b-gJ-WDW" secondAttribute="leading" id="ga2-8H-fcG"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="top" secondItem="Q9b-gJ-WDW" secondAttribute="bottom" constant="10" id="jPh-Z8-A1p"/>
+                            <constraint firstItem="Q9b-gJ-WDW" firstAttribute="top" secondItem="R9P-fc-tXW" secondAttribute="bottom" constant="15" id="kI1-dE-zXi"/>
+                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="leading" secondItem="oMb-Ql-JEt" secondAttribute="leading" id="koH-Sg-Bkk"/>
+                            <constraint firstItem="5k5-mt-wmx" firstAttribute="trailing" secondItem="Q9b-gJ-WDW" secondAttribute="trailing" id="mmc-4g-UnR"/>
+                            <constraint firstItem="qpn-aN-zav" firstAttribute="trailing" secondItem="5k5-mt-wmx" secondAttribute="trailing" id="qkj-cc-0OJ"/>
+                            <constraint firstItem="R9P-fc-tXW" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="wHk-Bd-Vpb"/>
                             <constraint firstAttribute="centerX" secondItem="gU7-S5-iZ0" secondAttribute="centerX" id="zV1-Vl-BOX"/>
-                            <constraint firstItem="VSo-Ng-hTF" firstAttribute="leading" secondItem="oMb-Ql-JEt" secondAttribute="leading" id="zn5-BK-aTw"/>
-                            <constraint firstItem="R9P-fc-tXW" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" symbolic="YES" id="ztb-Pf-LN1"/>
                         </constraints>
                     </view>
                     <toolbarItems/>

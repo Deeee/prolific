@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B2750241AD3080E004CC2C4 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750231AD3080E004CC2C4 /* UIImage+Resize.m */; };
+		5B2750291AD30C47004CC2C4 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750261AD30C47004CC2C4 /* UIImage+Alpha.m */; };
+		5B27502A1AD30C47004CC2C4 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750281AD30C47004CC2C4 /* UIImage+RoundedCorner.m */; };
 		5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886891ACDBA5400568400 /* LibraryParser.m */; };
 		5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868C1ACDBA8200568400 /* LibraryData.m */; };
 		5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868F1ACE1C2400568400 /* LibraryCell.m */; };
@@ -34,6 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B2750221AD3080E004CC2C4 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		5B2750231AD3080E004CC2C4 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		5B2750251AD30C47004CC2C4 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		5B2750261AD30C47004CC2C4 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		5B2750271AD30C47004CC2C4 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		5B2750281AD30C47004CC2C4 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		5B2886881ACDBA5400568400 /* LibraryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryParser.h; sourceTree = "<group>"; };
 		5B2886891ACDBA5400568400 /* LibraryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryParser.m; sourceTree = "<group>"; };
 		5B28868B1ACDBA8200568400 /* LibraryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryData.h; sourceTree = "<group>"; };
@@ -116,6 +125,12 @@
 				5B28868C1ACDBA8200568400 /* LibraryData.m */,
 				5B29B0BF1ACCC57F00FA0B77 /* DetailViewController.h */,
 				5B29B0C01ACCC57F00FA0B77 /* DetailViewController.m */,
+				5B2750221AD3080E004CC2C4 /* UIImage+Resize.h */,
+				5B2750231AD3080E004CC2C4 /* UIImage+Resize.m */,
+				5B2750251AD30C47004CC2C4 /* UIImage+Alpha.h */,
+				5B2750261AD30C47004CC2C4 /* UIImage+Alpha.m */,
+				5B2750271AD30C47004CC2C4 /* UIImage+RoundedCorner.h */,
+				5B2750281AD30C47004CC2C4 /* UIImage+RoundedCorner.m */,
 				5B29B0C21ACCC57F00FA0B77 /* Main.storyboard */,
 				5B29B0DE1ACCDC1900FA0B77 /* AddBookViewController.h */,
 				5B29B0DF1ACCDC1900FA0B77 /* AddBookViewController.m */,
@@ -257,11 +272,14 @@
 				5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */,
 				5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */,
 				5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */,
+				5B27502A1AD30C47004CC2C4 /* UIImage+RoundedCorner.m in Sources */,
 				5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */,
 				5B29B0E01ACCDC1900FA0B77 /* AddBookViewController.m in Sources */,
 				5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */,
+				5B2750291AD30C47004CC2C4 /* UIImage+Alpha.m in Sources */,
 				5B29B0C11ACCC57F00FA0B77 /* DetailViewController.m in Sources */,
 				5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */,
+				5B2750241AD3080E004CC2C4 /* UIImage+Resize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

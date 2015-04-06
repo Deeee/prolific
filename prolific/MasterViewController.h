@@ -10,7 +10,7 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource,NSURLConnectionDataDelegate>
+@interface MasterViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource,NSURLConnectionDataDelegate, UIImagePickerControllerDelegate>
 
 -(void) fetchAndParseJson;
 
