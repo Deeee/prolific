@@ -73,6 +73,7 @@
 
 /* Configure view with pref font */
 -(void) configureView {
+    [self.tapGesture setCancelsTouchesInView:NO];
     serverDateFormat = [[NSDateFormatter alloc] init];
     [serverDateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     if (self.detailItem) {
@@ -112,6 +113,7 @@
 
 /* Handle action when click on checkout */
 -(IBAction) clickedOnCheckedout:(id)sender {
+    NSLog(@"here in clicked on check out");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Information Needed"
                                                         message:@"Please give your name and checkedout date"
                                                        delegate:self
@@ -468,6 +470,8 @@
 
 -(void) viewDidLoad {
     [super viewDidLoad];
+    self.view.frame = [UIScreen mainScreen].bounds;
+
     [self.actionSheet setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                               [UIFont fontWithName:@"Machinato-ExtraLight" size:15.0], NSFontAttributeName,
                                               userChooseColor, NSForegroundColorAttributeName,

@@ -33,6 +33,7 @@
 -(void) configureTextViewNonEdit:(UITextView *)textView WithText:(NSString *)text;
 -(void) restoreBackToNonEdit;
 -(void) resetTtile;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
 -(IBAction) clickedOnCheckedout:(id)sender;
 -(IBAction) clickedOnEdit:(id)sender;

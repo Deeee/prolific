@@ -9,7 +9,7 @@
         <!--Master-->
         <scene sceneID="pY4-Hu-kfo">
             <objects>
-                <navigationController title="Master" id="RMx-3f-FxP" sceneMemberID="viewController">
+                <navigationController title="Master" wantsFullScreenLayout="YES" id="RMx-3f-FxP" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -24,7 +24,7 @@
         <!--Detail-->
         <scene sceneID="yUG-lL-AsK">
             <objects>
-                <viewController title="Detail" id="JEX-9P-axG" customClass="DetailViewController" sceneMemberID="viewController">
+                <viewController title="Detail" wantsFullScreenLayout="YES" id="JEX-9P-axG" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SYR-Wa-9uf"/>
                         <viewControllerLayoutGuide type="bottom" id="GAO-Cl-Wes"/>
@@ -76,7 +76,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="clickedOnCheckedout:" destination="JEX-9P-axG" eventType="touchUpInside" id="YeB-64-JRd"/>
+                                    <action selector="clickedOnCheckedout:" destination="JEX-9P-axG" eventType="touchUpInside" id="ac2-sA-01b"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C16-kG-OQ1">
@@ -98,11 +98,11 @@
                             <constraint firstAttribute="centerX" secondItem="wLf-pp-tng" secondAttribute="centerX" id="4q9-pW-zle"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="width" secondItem="iPe-Mi-U8c" secondAttribute="width" id="6IJ-0W-Bnx"/>
                             <constraint firstItem="ECl-Sv-AwX" firstAttribute="top" secondItem="iPe-Mi-U8c" secondAttribute="bottom" constant="8" symbolic="YES" id="8bw-EN-j8s"/>
+                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="centerX" secondItem="C16-kG-OQ1" secondAttribute="centerX" id="DM5-rC-f8b"/>
                             <constraint firstItem="iPe-Mi-U8c" firstAttribute="top" secondItem="CPW-fs-72e" secondAttribute="bottom" constant="8" symbolic="YES" id="Gk7-FJ-2gp"/>
-                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="gU7-S5-iZ0" secondAttribute="bottom" constant="127" id="KrH-VM-rGH"/>
+                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="C16-kG-OQ1" secondAttribute="bottom" constant="72" id="IDu-g1-Iky"/>
                             <constraint firstItem="ECl-Sv-AwX" firstAttribute="width" secondItem="iPe-Mi-U8c" secondAttribute="height" multiplier="142:15" id="OsB-Lk-MOE"/>
                             <constraint firstAttribute="centerX" secondItem="C16-kG-OQ1" secondAttribute="centerX" id="PWJ-Gr-s89"/>
-                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="C16-kG-OQ1" secondAttribute="bottom" constant="72" id="QOT-XM-lDa"/>
                             <constraint firstItem="C16-kG-OQ1" firstAttribute="top" secondItem="svH-Pt-448" secondAttribute="top" constant="311" id="Qw6-2N-Al7"/>
                             <constraint firstAttribute="centerX" secondItem="ECl-Sv-AwX" secondAttribute="centerX" id="SJ1-y8-bIy"/>
                             <constraint firstItem="wLf-pp-tng" firstAttribute="top" secondItem="ECl-Sv-AwX" secondAttribute="bottom" constant="8" symbolic="YES" id="VBQ-UL-ZKb"/>
@@ -115,8 +115,10 @@
                             <constraint firstItem="CPW-fs-72e" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" symbolic="YES" id="jPu-4M-GX3"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="width" secondItem="C16-kG-OQ1" secondAttribute="width" id="uL7-wa-bij"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" id="zRa-FH-pQC"/>
-                            <constraint firstAttribute="centerX" secondItem="gU7-S5-iZ0" secondAttribute="centerX" id="zV1-Vl-BOX"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="1j0-Ka-iGT" appends="YES" id="EbY-3T-U9W"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
@@ -134,13 +136,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="Checkout" destination="gU7-S5-iZ0" id="P9F-QO-zUO"/>
+                        <outlet property="Checkout" destination="gU7-S5-iZ0" id="3oC-hE-u8V"/>
                         <outlet property="actionSheet" destination="5J8-W9-3LR" id="aDY-Ua-5wp"/>
                         <outlet property="author" destination="iPe-Mi-U8c" id="tMV-QF-UiN"/>
                         <outlet property="bookTitle" destination="CPW-fs-72e" id="tml-1h-mlh"/>
                         <outlet property="lastCheckedOutBy" destination="C16-kG-OQ1" id="Ijm-E2-Rb1"/>
                         <outlet property="publisher" destination="ECl-Sv-AwX" id="vMr-gi-unv"/>
                         <outlet property="tags" destination="wLf-pp-tng" id="4gS-Bk-IlY"/>
+                        <outlet property="tapGesture" destination="1j0-Ka-iGT" id="G2Y-mV-iVP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -155,7 +158,7 @@
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
             <objects>
-                <splitViewController id="H1p-Uh-vWS" sceneMemberID="viewController">
+                <splitViewController wantsFullScreenLayout="YES" id="H1p-Uh-vWS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
                         <segue destination="RMx-3f-FxP" kind="relationship" relationship="masterViewController" id="BlO-5A-QYV"/>
@@ -169,7 +172,7 @@
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
-                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
+                <tableViewController title="Master" wantsFullScreenLayout="YES" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -254,7 +257,7 @@
         <!--Title-->
         <scene sceneID="tla-xl-K7W">
             <objects>
-                <viewController storyboardIdentifier="addBook" id="Dvg-vp-DVT" customClass="AddBookViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addBook" wantsFullScreenLayout="YES" id="Dvg-vp-DVT" customClass="AddBookViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bel-AU-Uf4"/>
                         <viewControllerLayoutGuide type="bottom" id="df5-5H-Wvr"/>
@@ -356,7 +359,7 @@
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
             <objects>
-                <navigationController id="vC3-pB-5Vb" sceneMemberID="viewController">
+                <navigationController wantsFullScreenLayout="YES" id="vC3-pB-5Vb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DjV-YW-jjY">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -371,7 +374,7 @@
         <!--Navigation Controller-->
         <scene sceneID="gyZ-Ui-iT1">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fmR-I2-vTl" sceneMemberID="viewController">
+                <navigationController wantsFullScreenLayout="YES" automaticallyAdjustsScrollViewInsets="NO" id="fmR-I2-vTl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="axk-rE-7sS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
