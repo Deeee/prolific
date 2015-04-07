@@ -8,17 +8,21 @@
 
 #import "AddBookViewController.h"
 #import "MasterViewController.h"
+#import "LibraryAppDelegate.h"
+#import "UIImage+Resize.h"
+#define FONT_M_B(s) [UIFont fontWithName:@"Machinato-Bold" size:s]
+
 @interface AddBookViewController ()
+@property UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UINavigationItem *toolbarItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UITextField *bookTitle;
 @property (weak, nonatomic) IBOutlet UITextField *author;
 @property (weak, nonatomic) IBOutlet UITextField *publisher;
 @property (weak, nonatomic) IBOutlet UITextField *categories;
-
 @property (weak, nonatomic) IBOutlet UIButton *submit;
-
-
+@property LibraryAppDelegate *delegate;
+@property UIColor *userChooseColor;
 @end
 
 @implementation AddBookViewController {
@@ -27,24 +31,54 @@
 @synthesize author;
 @synthesize publisher;
 @synthesize categories;
+@synthesize delegate = _delegate;
+@synthesize backgroundImageView;
+@synthesize userChooseColor;
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
+    _delegate = [UIApplication sharedApplication].delegate;
+
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.alpha = .3;
+    [self setBackgroundImageView: [[UIImageView alloc] initWithImage:_delegate.appBackground]];
+    [self.view addSubview:self.backgroundImageView];
+    [self.view sendSubviewToBack:self.backgroundImageView];
     
     self.toolbarItem.title = @"Add Book";
     self.author.placeholder = @"Author";
     self.bookTitle.placeholder = @"Book Title";
     self.publisher.placeholder =@"Publisher";
     self.categories.placeholder = @"Categories";
-//    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickOnDone:)];
-//
-//    toolbar.topItem.rightBarButtonItem = self.doneButton;
-    // Do view setup here.
+    
     self.toolbarItem.rightBarButtonItem = self.doneButton;
+    [self resetTtile];
+    self.submit.titleLabel.font = FONT_M_B(22);
+    [self.doneButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIFont fontWithName:@"Machinato-ExtraLight" size:15.0], NSFontAttributeName,
+                                        userChooseColor, NSForegroundColorAttributeName,
+                                        nil] 
+                              forState:UIControlStateNormal];
 }
+
+-(void) resetTtile {
+    _delegate = [UIApplication sharedApplication].delegate;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = FONT_M_B(22);
+    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    label.textAlignment = NSTextAlignmentCenter;
+    self.userChooseColor = _delegate.userChooseColor;
+    label.textColor = self.userChooseColor;
+    self.navigationItem.titleView = label;
+    label.text = NSLocalizedString(@"Library", @"");
+    [label sizeToFit];
+}
+
+
 -(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
     return UIBarPositionTopAttached;
 }
+
 
 -(IBAction)clickOnDone:(id) sender {
     if((![[self.bookTitle text] isEqualToString:@""]) || (![[self.author text] isEqualToString:@""] )|| (![[self.publisher text] isEqualToString:@""]) || (![[self.categories text] isEqualToString:@""])) {
@@ -77,27 +111,14 @@
         [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-        NSLog(@"locate sendata %@",sendData);
-        // Send POST
-        [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
 
-            
+        [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
             NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
-            
             if ([urlResponse statusCode] >= 200 && responseData != nil) {
-                // Sign in success
                 [self alertStatus:@"Submit succeed" :@"Sucess" :1 :3];
-                NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
-                NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
             }
             else {
-                
-                // Sign in fail alert
                 [self alertStatus:@"Submit failed" :@"Failed" :1 :1];
-                
-                NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                NSLog(@"Description: %@", [error localizedDescription]);
-                
             }
         }];
         
@@ -115,7 +136,6 @@
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
-        NSLog(@"here");
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
                                                            delegate:self
@@ -125,7 +145,6 @@
         [alertView show];
     }
     else if (mode == 2){
-        NSLog(@"here");
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
                                                            delegate:self
@@ -156,7 +175,7 @@
 - (void)alertView:(UIAlertView *)alertView
     clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
-        //cancel clicked ...do your action
+
     }else{
         [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     }

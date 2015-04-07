@@ -10,22 +10,15 @@
 #import "DetailViewController.h"
 #import "AddBookViewController.h"
 #import "LibraryData.h"
-#import "LibraryCell.h"
 #import "LibraryAppDelegate.h"
 #import "UIImage+Resize.h"
+#define FONT_M_B(s) [UIFont fontWithName:@"Machinato-Bold" size:s]
+#define FONT_M(s) [UIFont fontWithName:@"Machinato" size:s]
+#define FONT_M_EL(s) [UIFont fontWithName:@"Machinato-ExtraLight" size:s]
 
-@class LibraryAppDelegate;
+
+
 @interface MasterViewController ()
-
-@property (nonatomic, strong) NSMutableArray *loadedLibraryData;
-@property (nonatomic, strong) NSArray *filterResult;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) DetailViewController *detailViewController;
-@property (weak, nonatomic) IBOutlet UIButton *actionSheet;
-@property NSMutableURLRequest *originalRequest;
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, strong) UIImageView *blurredImageView;
-@property (nonatomic, assign) CGFloat screenHeight;
 @end
 
 @implementation MasterViewController {
@@ -36,9 +29,13 @@
     BOOL isBlurred;
     NSString *blurButtonTitle;
     NSString *currentImageName;
+    UIColor *userChooseColor;
 }
 @synthesize originalRequest = _originalRequest;
 @synthesize filterResult = _filterResult;
+@synthesize delegate = _delegate;
+
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -50,17 +47,59 @@
     [[UISearchBar appearance] setAlpha:0.5];
     [[UISearchBar appearance] setBackgroundColor:[UIColor blackColor]];
     
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
     isBlurred = YES;
     blurButtonTitle = @"Set Blur Off";
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
     userImage = tempImageView.image;
+    userChooseColor = [UIColor whiteColor];
+    _delegate = [UIApplication sharedApplication].delegate;
+
     self.backgroundImageView = tempImageView;
     [self backGroundSet];
+    [self.searchDisplayController.searchResultsTableView setBackgroundColor:[UIColor grayColor]];
+    self.actionSheet.titleLabel.font = FONT_M_EL(15);
+
 
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     [self fetchAndParseJson];
+}
+
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self resetTtile];
+    [self viewInit];
+    [self fetchAndParseJson];
+
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+- (void)viewInit {
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
+    self.navigationItem.leftBarButtonItem = addButton;
+    self.loadedLibraryData = [[NSMutableArray alloc] init];
+    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+
+}
+
+-(void) resetTtile {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = FONT_M_B(22);
+    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = userChooseColor;
+    label.text = NSLocalizedString(@"Library", @"");
+    [label sizeToFit];
+    
+    self.navigationItem.titleView = label;
 }
 
 -(void) backGroundBlur:(UIImageView *)tempImageView {
@@ -73,8 +112,6 @@
     CIContext *context   = [CIContext contextWithOptions:nil];
     CGRect rect          = [outputImage extent];
     
-    // these three lines ensure that the final image is the same size
-    
     rect.origin.x        += (rect.size.width  - tempImageView.image.size.width ) / 2;
     rect.origin.y        += (rect.size.height - tempImageView.image.size.height) / 2;
     rect.size            = tempImageView.image.size;
@@ -83,15 +120,12 @@
     UIImage *image       = [UIImage imageWithCGImage:cgimg];
     tempImageView = [tempImageView initWithImage:image];
     [tempImageView setFrame:self.tableView.frame];
-    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
     self.backgroundImageView = tempImageView;
     self.tableView.backgroundView = tempImageView;
 }
 
 -(void ) backGroundSet {
-    //if user doesnt have image
     UIImageView *tempImageView = self.backgroundImageView;
-    UIImage *image;
     if (isBlurred == YES) {
         [self backGroundBlur:tempImageView];
     }
@@ -101,62 +135,20 @@
         [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
         self.backgroundImageView = tempImageView;
         self.tableView.backgroundView = tempImageView;
-
+        
     }
-//    UIImageView *newView = [[UIImageView alloc] initWithImage:image];
-//    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
-//    self.backgroundImageView = tempImageView;
-//    self.tableView.backgroundView = tempImageView;
-
+    _delegate.appBackground = userImage;
+    
 }
 
-- (void)viewInit {
-    self.title = @"Library";
-    
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
-    self.navigationItem.leftBarButtonItem = addButton;
-    
-    
-    self.loadedLibraryData = [[NSMutableArray alloc] init];
-    
-
-    [self fetchAndParseJson];
-
+-(UIColor *)randomColor {
+    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
+    UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+    return color;
 }
-
--(void)takePhoto {
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-#if TARGET_IPHONE_SIMULATOR
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-#else
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-#endif
-    imagePickerController.editing = YES;
-    imagePickerController.delegate = (id)self;
-    
-    [self presentModalViewController:imagePickerController animated:YES];
-}
-
-#pragma mark - Image picker delegate methdos
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    // Resize the image from the camera
-    UIImage *scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
-    // Crop the image to a square (yikes, fancy!)
-    UIImage *croppedImage = [scaledImage croppedImage:CGRectMake((scaledImage.size.width -self.backgroundImageView.frame.size.width)/2, (scaledImage.size.height -self.backgroundImageView.frame.size.height)/2, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height)];
-    // Show the photo on the screen
-    self.backgroundImageView.image = croppedImage;
-    userImage = croppedImage;
-    if (isBlurred == YES) {
-        [self backGroundBlur:self.backgroundImageView];
-    }
-    [picker dismissModalViewControllerAnimated:YES];
-}
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissModalViewControllerAnimated:YES];
-}
-
+#pragma mark - ActionSheet setup
 - (IBAction)clickOnActionSheet:(id)sender {
     alertController = [UIAlertController
                        alertControllerWithTitle:@"Actions"
@@ -170,6 +162,25 @@
                                         [self fetchAndParseJson];
                                     }];
     [alertController addAction:refreshAction];
+    
+
+    
+    UIAlertAction *luckyAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"I am feeling lucky!", @"lucky action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        
+                                        userChooseColor = [self randomColor];
+                                        
+                                        [self.tableView reloadData];
+                                        
+                                        LibraryAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+                                        [delegate.window setTintColor:userChooseColor];
+                                        [self resetTtile];
+                                        
+                                    }];
+    [alertController addAction:luckyAction];
     UIAlertAction *changeBackGroundAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(@"Change Background", @"Change Background action")
                                     style:UIAlertActionStyleDefault
@@ -197,7 +208,7 @@
                                     }];
     [alertController addAction:blurredAction];
     UIAlertAction *deleteAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"Delete", @"Delete action")
+                                   actionWithTitle:NSLocalizedString(@"Delete All Books", @"Delete action")
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
@@ -238,24 +249,58 @@
 }
 
 - (void) deleteAllLibraryData {
-    // Prepare for sending POST
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/clean"]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"DELETE"];
-    // Send POST
     [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
         
         
         NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
         
         if ([urlResponse statusCode] >= 200 && responseData != nil) {
-            // Sign in success
             flagForDeletion = true;
             [self alertStatus:@"Delete all books succeed!" :@"Success" :1 :11];
-            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
-            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+        }
+        else {
+            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
+            [self alertStatus:@"Delete failed" :errorMsg :1 :1];
+            
+        }
+    }];
+    
+}
+
+
+- (void)insertNewBook:(id)sender {
+    _delegate.appBackground = [userImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
+    _delegate.userChooseColor = userChooseColor;
+    [self performSegueWithIdentifier:@"addBookSegue" sender:self];
+}
+
+- (void) setDeleteFlagTrue {
+    flagForDeletion = true;
+    [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+}
+
+- (BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
+    
+    // Prepare for sending POST
+    flagForDeletion = false;
+    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
+    [mainQueue setMaxConcurrentOperationCount:5];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",urlString]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    // Send POST
+    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
+        if ([urlResponse statusCode] >= 200 && responseData != nil) {
+            [self performSelectorOnMainThread:@selector(setDeleteFlagTrue) withObject:nil waitUntilDone:NO];
+            [self alertStatus:@"Delete succeed!" :@"Success" :1 :11];
         }
         else {
             
@@ -263,11 +308,10 @@
             NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
             [self alertStatus:@"Delete failed" :errorMsg :1 :1];
             
-            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-            NSLog(@"Description: %@", [error localizedDescription]);
-            
         }
     }];
+    return flagForDeletion;
+    
     
 }
 
@@ -327,52 +371,6 @@
     
 }
 
-- (void) setDeleteFlagTrue {
-    flagForDeletion = true;
-    [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-    
-}
-
-- (BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
-    
-    // Prepare for sending POST
-    flagForDeletion = false;
-    NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
-    [mainQueue setMaxConcurrentOperationCount:5];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",urlString]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"DELETE"];
-    // Send POST
-    [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
-        
-        
-        NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
-        
-        if ([urlResponse statusCode] >= 200 && responseData != nil) {
-            // Sign in success
-            [self performSelectorOnMainThread:@selector(setDeleteFlagTrue) withObject:nil waitUntilDone:NO];
-            [self alertStatus:@"Delete succeed!" :@"Success" :1 :11];
-            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
-            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-        }
-        else {
-            
-            // Sign in fail alert
-            NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
-            [self alertStatus:@"Delete failed" :errorMsg :1 :1];
-            
-            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-            NSLog(@"Description: %@", [error localizedDescription]);
-            
-        }
-    }];
-    NSLog(@"returning bool %d, ture is %d",flagForDeletion, true);
-    return flagForDeletion;
-    
-    
-}
-
 
 -(void) showAlert {
     [self presentViewController:alertController animated:YES completion:nil];
@@ -383,41 +381,20 @@
     
 }
 
+
+#pragma mark - Search Bar Delegate
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"(title contains[c] %@) OR (categories contains[c] %@) OR (author contains[c] %@)", searchText,searchText,searchText];
     _filterResult = [self.loadedLibraryData filteredArrayUsingPredicate:resultPredicate];
-    NSLog(@"in filter content loadeddata count %ld, result count %ld",(unsigned long)[self.loadedLibraryData count],(unsigned long)[_filterResult count]);
-
     
 }
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    
-    
-    
-
-//    [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
-    // Send a synchronous request
-    [self viewInit];
-    // Do any additional setup after loading the view, typically from a nib.
 
 
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-}
+#pragma mark - Load Data into Table
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-- (void)insertNewBook:(id)sender {
-    [self performSegueWithIdentifier:@"addBookSegue" sender:self];
-}
 
 - (void)reloadTableWithData:(NSData *)responseData {
     NSError *error = nil;
@@ -434,7 +411,6 @@
 -(void) fetchAndParseJson {
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
-    NSLog(@"in fectch and parse");
     NSURL *url = [NSURL URLWithString:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/books" ];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     _originalRequest = request;
@@ -448,9 +424,6 @@
         NSString* newStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 
         if ([urlResponse statusCode] >= 200 && responseData != nil) {
-            NSLog(@"Status Code: %li %@", (long)urlResponse.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode]);
-            NSLog(@"Response Body: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-            
             if (![newStr isEqualToString:@""]) {
                 [self performSelectorOnMainThread:@selector(reloadTableWithData:) withObject:responseData waitUntilDone:NO];
             }
@@ -460,26 +433,16 @@
             
             NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
             [self alertStatus:@"Load table failed" :errorMsg :1 :1];
-            
-            NSLog(@"An error occured, Status Code: %li, respsonse : %@", (long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-            NSLog(@"Description: %@", [error localizedDescription]);
-            
         }
     }];
 }
+
 - (NSURLRequest *)connection: (NSURLConnection *)connection
              willSendRequest: (NSURLRequest *)request
             redirectResponse: (NSURLResponse *)redirectResponse;
 {
-    NSLog(@"here in redirect");
     if (redirectResponse) {
-        // The request you initialized the connection with should be kept as
-        // _originalRequest.
-        // Instead of trying to merge the pieces of _originalRequest into Cocoa
-        // touch's proposed redirect request, we make a mutable copy of the
-        // original request, change the URL to match that of the proposed
-        // request, and return it as the request to use.
-        //
+
         NSMutableURLRequest *r = [_originalRequest mutableCopy];
         [r setURL: [request URL]];
         return r;
@@ -489,11 +452,47 @@
 }
 
 
+#pragma mark - Take phote API
+-(void)takePhoto {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+#if TARGET_IPHONE_SIMULATOR
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+#else
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+#endif
+    imagePickerController.editing = YES;
+    imagePickerController.delegate = (id)self;
+    
+    [self presentModalViewController:imagePickerController animated:YES];
+}
+
+#pragma mark - Image picker delegate methdos
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    // Resize the image from the camera
+    UIImage *scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
+    // Crop the image to a square
+    UIImage *croppedImage = [scaledImage croppedImage:CGRectMake((scaledImage.size.width -self.backgroundImageView.frame.size.width)/2, (scaledImage.size.height -self.backgroundImageView.frame.size.height)/2, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height)];
+    // Show the photo on the screen
+    self.backgroundImageView.image = croppedImage;
+    userImage = croppedImage;
+    if (isBlurred == YES) {
+        [self backGroundBlur:self.backgroundImageView];
+    }
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+
 
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        _delegate.userChooseColor = userChooseColor;
         NSIndexPath *indexPath = nil;
         LibraryData *libraryData = nil;
         
@@ -509,22 +508,15 @@
         [controller setDetailItem:libraryData];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+        
+        [controller setBackgroundImageView:[[UIImageView alloc] initWithImage:[userImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh]]];
+        [controller.view addSubview:controller.backgroundImageView];
+        [controller.view sendSubviewToBack:controller.backgroundImageView];
+
     }
 }
-
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        LibraryData *object = self.loadedLibraryData[indexPath.row];
-//        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-//        [controller setDetailItem:object];
-//        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-//        controller.navigationItem.leftItemsSupplementBackButton = YES;
-//    }
-
 #pragma mark - Table View
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return [self.loadedLibraryData count];
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
@@ -537,34 +529,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LibCell"];
-//    LibraryCell *cell = nil;
-//    LibraryCell *cell = (LibraryCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 
     if (cell == nil)
     {
-//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellIdentifier owner:self options:nil];
-//        NSLog(@"nib count %ld",[nib count]);
+
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LibCell"];
     }
     LibraryData *libraryData = nil;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        NSLog(@"preparing display filter result, count %ld",[_filterResult count]);
         libraryData = [_filterResult objectAtIndex:indexPath.row];
     } else {
         libraryData = [self.loadedLibraryData objectAtIndex:indexPath.row];
     }
     
-//    [cell loadWithData:libraryData];
-//    cell.bookTitle.text = @"123123";
     cell.textLabel.text = libraryData.title;
-    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = userChooseColor;
+    cell.textLabel.font = FONT_M(18);
     cell.detailTextLabel.text = libraryData.author;
-    cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = userChooseColor;
+    cell.detailTextLabel.font = FONT_M(14);
     cell.backgroundColor = [UIColor clearColor];
     return cell;
-//    NSDate *object = self.objects[indexPath.row];
-//    cell.textLabel.text = [object description];
-//    return cell;
+
     
     
     
@@ -572,7 +558,6 @@
 
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
 
@@ -581,9 +566,8 @@
         LibraryData *selectedData = [self.loadedLibraryData objectAtIndex:indexPath.row];
         currentIndexPath = indexPath;
         [self deleteLibraryDataAtUrl:[selectedData url]];
-        //        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    
     }
 }
 

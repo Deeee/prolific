@@ -12,7 +12,7 @@
 @class DetailViewController;
 @interface LibraryAppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
-@property (readwrite, retain) LibraryData *currentlySelectedLibraryData;
-
+@property UIImage *appBackground;
+@property UIColor *userChooseColor;
 @end
 

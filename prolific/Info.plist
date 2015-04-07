@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Machinato SemiBold.ttf</string>
+		<string>Machinato.ttf</string>
+		<string>Machinato Bold Italic.ttf</string>
+		<string>Machinato ExtraLight Italic.ttf</string>
+		<string>Machinato Bold.ttf</string>
+		<string>Machinato ExtraLight.ttf</string>
+		<string>Machinato Italic.ttf</string>
+		<string>Machinato Light Italic.ttf</string>
+		<string>Machinato Light.ttf</string>
+		<string>Machinato SemiBold Italic.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

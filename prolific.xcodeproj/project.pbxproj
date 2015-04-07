@@ -10,9 +10,17 @@
 		5B2750241AD3080E004CC2C4 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750231AD3080E004CC2C4 /* UIImage+Resize.m */; };
 		5B2750291AD30C47004CC2C4 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750261AD30C47004CC2C4 /* UIImage+Alpha.m */; };
 		5B27502A1AD30C47004CC2C4 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2750281AD30C47004CC2C4 /* UIImage+RoundedCorner.m */; };
-		5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886891ACDBA5400568400 /* LibraryParser.m */; };
+		5B2750431AD37C7C004CC2C4 /* Machinato Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B2750391AD37C7C004CC2C4 /* Machinato Bold Italic.ttf */; };
+		5B2750441AD37C7C004CC2C4 /* Machinato Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503A1AD37C7C004CC2C4 /* Machinato Bold.ttf */; };
+		5B2750451AD37C7C004CC2C4 /* Machinato ExtraLight Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503B1AD37C7C004CC2C4 /* Machinato ExtraLight Italic.ttf */; };
+		5B2750461AD37C7C004CC2C4 /* Machinato ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503C1AD37C7C004CC2C4 /* Machinato ExtraLight.ttf */; };
+		5B2750471AD37C7C004CC2C4 /* Machinato Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503D1AD37C7C004CC2C4 /* Machinato Italic.ttf */; };
+		5B2750481AD37C7C004CC2C4 /* Machinato Light Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503E1AD37C7C004CC2C4 /* Machinato Light Italic.ttf */; };
+		5B2750491AD37C7C004CC2C4 /* Machinato Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B27503F1AD37C7C004CC2C4 /* Machinato Light.ttf */; };
+		5B27504A1AD37C7C004CC2C4 /* Machinato SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B2750401AD37C7C004CC2C4 /* Machinato SemiBold Italic.ttf */; };
+		5B27504B1AD37C7C004CC2C4 /* Machinato SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B2750411AD37C7C004CC2C4 /* Machinato SemiBold.ttf */; };
+		5B27504C1AD37C7C004CC2C4 /* Machinato.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B2750421AD37C7C004CC2C4 /* Machinato.ttf */; };
 		5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868C1ACDBA8200568400 /* LibraryData.m */; };
-		5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B28868F1ACE1C2400568400 /* LibraryCell.m */; };
 		5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2886991AD09AF900568400 /* NSNull+Json.m */; };
 		5B28869E1AD2598700568400 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B28869D1AD2598700568400 /* bg.png */; };
 		5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29B0B71ACCC57F00FA0B77 /* main.m */; };
@@ -43,12 +51,18 @@
 		5B2750261AD30C47004CC2C4 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
 		5B2750271AD30C47004CC2C4 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		5B2750281AD30C47004CC2C4 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
-		5B2886881ACDBA5400568400 /* LibraryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryParser.h; sourceTree = "<group>"; };
-		5B2886891ACDBA5400568400 /* LibraryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryParser.m; sourceTree = "<group>"; };
+		5B2750391AD37C7C004CC2C4 /* Machinato Bold Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato Bold Italic.ttf"; sourceTree = "<group>"; };
+		5B27503A1AD37C7C004CC2C4 /* Machinato Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato Bold.ttf"; sourceTree = "<group>"; };
+		5B27503B1AD37C7C004CC2C4 /* Machinato ExtraLight Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato ExtraLight Italic.ttf"; sourceTree = "<group>"; };
+		5B27503C1AD37C7C004CC2C4 /* Machinato ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato ExtraLight.ttf"; sourceTree = "<group>"; };
+		5B27503D1AD37C7C004CC2C4 /* Machinato Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato Italic.ttf"; sourceTree = "<group>"; };
+		5B27503E1AD37C7C004CC2C4 /* Machinato Light Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato Light Italic.ttf"; sourceTree = "<group>"; };
+		5B27503F1AD37C7C004CC2C4 /* Machinato Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato Light.ttf"; sourceTree = "<group>"; };
+		5B2750401AD37C7C004CC2C4 /* Machinato SemiBold Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato SemiBold Italic.ttf"; sourceTree = "<group>"; };
+		5B2750411AD37C7C004CC2C4 /* Machinato SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machinato SemiBold.ttf"; sourceTree = "<group>"; };
+		5B2750421AD37C7C004CC2C4 /* Machinato.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Machinato.ttf; sourceTree = "<group>"; };
 		5B28868B1ACDBA8200568400 /* LibraryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryData.h; sourceTree = "<group>"; };
 		5B28868C1ACDBA8200568400 /* LibraryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryData.m; sourceTree = "<group>"; };
-		5B28868E1ACE1C2400568400 /* LibraryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryCell.h; sourceTree = "<group>"; };
-		5B28868F1ACE1C2400568400 /* LibraryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryCell.m; sourceTree = "<group>"; };
 		5B2886981AD09AF900568400 /* NSNull+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNull+Json.h"; path = "prolific/NSNull+Json.h"; sourceTree = "<group>"; };
 		5B2886991AD09AF900568400 /* NSNull+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNull+Json.m"; path = "prolific/NSNull+Json.m"; sourceTree = "<group>"; };
 		5B28869D1AD2598700568400 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -89,6 +103,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B27502B1AD37C11004CC2C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B2750381AD37C6A004CC2C4 /* Fonts */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5B2750381AD37C6A004CC2C4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5B2750391AD37C7C004CC2C4 /* Machinato Bold Italic.ttf */,
+				5B27503A1AD37C7C004CC2C4 /* Machinato Bold.ttf */,
+				5B27503B1AD37C7C004CC2C4 /* Machinato ExtraLight Italic.ttf */,
+				5B27503C1AD37C7C004CC2C4 /* Machinato ExtraLight.ttf */,
+				5B27503D1AD37C7C004CC2C4 /* Machinato Italic.ttf */,
+				5B27503E1AD37C7C004CC2C4 /* Machinato Light Italic.ttf */,
+				5B27503F1AD37C7C004CC2C4 /* Machinato Light.ttf */,
+				5B2750401AD37C7C004CC2C4 /* Machinato SemiBold Italic.ttf */,
+				5B2750411AD37C7C004CC2C4 /* Machinato SemiBold.ttf */,
+				5B2750421AD37C7C004CC2C4 /* Machinato.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		5B29B0A91ACCC57F00FA0B77 = {
 			isa = PBXGroup;
 			children = (
@@ -112,17 +151,14 @@
 		5B29B0B41ACCC57F00FA0B77 /* prolific */ = {
 			isa = PBXGroup;
 			children = (
+				5B27502B1AD37C11004CC2C4 /* Resources */,
 				5B29B0B91ACCC57F00FA0B77 /* LibraryAppDelegate.h */,
 				5B29B0BA1ACCC57F00FA0B77 /* LibraryAppDelegate.m */,
 				5B29B0BC1ACCC57F00FA0B77 /* MasterViewController.h */,
 				5B29B0BD1ACCC57F00FA0B77 /* MasterViewController.m */,
-				5B28868E1ACE1C2400568400 /* LibraryCell.h */,
-				5B28868F1ACE1C2400568400 /* LibraryCell.m */,
-				5B2886881ACDBA5400568400 /* LibraryParser.h */,
-				5B2886891ACDBA5400568400 /* LibraryParser.m */,
 				5B28868B1ACDBA8200568400 /* LibraryData.h */,
-				5B28869D1AD2598700568400 /* bg.png */,
 				5B28868C1ACDBA8200568400 /* LibraryData.m */,
+				5B28869D1AD2598700568400 /* bg.png */,
 				5B29B0BF1ACCC57F00FA0B77 /* DetailViewController.h */,
 				5B29B0C01ACCC57F00FA0B77 /* DetailViewController.m */,
 				5B2750221AD3080E004CC2C4 /* UIImage+Resize.h */,
@@ -247,10 +283,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B27504B1AD37C7C004CC2C4 /* Machinato SemiBold.ttf in Resources */,
 				5B29B0C41ACCC57F00FA0B77 /* Main.storyboard in Resources */,
 				5B29B0C91ACCC57F00FA0B77 /* LaunchScreen.xib in Resources */,
+				5B27504A1AD37C7C004CC2C4 /* Machinato SemiBold Italic.ttf in Resources */,
+				5B2750481AD37C7C004CC2C4 /* Machinato Light Italic.ttf in Resources */,
+				5B27504C1AD37C7C004CC2C4 /* Machinato.ttf in Resources */,
+				5B2750431AD37C7C004CC2C4 /* Machinato Bold Italic.ttf in Resources */,
+				5B2750441AD37C7C004CC2C4 /* Machinato Bold.ttf in Resources */,
+				5B2750461AD37C7C004CC2C4 /* Machinato ExtraLight.ttf in Resources */,
+				5B2750451AD37C7C004CC2C4 /* Machinato ExtraLight Italic.ttf in Resources */,
 				5B28869E1AD2598700568400 /* bg.png in Resources */,
+				5B2750491AD37C7C004CC2C4 /* Machinato Light.ttf in Resources */,
 				5B29B0C61ACCC57F00FA0B77 /* Images.xcassets in Resources */,
+				5B2750471AD37C7C004CC2C4 /* Machinato Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,12 +316,10 @@
 			files = (
 				5B29B0BB1ACCC57F00FA0B77 /* LibraryAppDelegate.m in Sources */,
 				5B29B0BE1ACCC57F00FA0B77 /* MasterViewController.m in Sources */,
-				5B28868A1ACDBA5400568400 /* LibraryParser.m in Sources */,
 				5B28869A1AD09AF900568400 /* NSNull+Json.m in Sources */,
 				5B27502A1AD30C47004CC2C4 /* UIImage+RoundedCorner.m in Sources */,
 				5B29B0B81ACCC57F00FA0B77 /* main.m in Sources */,
 				5B29B0E01ACCDC1900FA0B77 /* AddBookViewController.m in Sources */,
-				5B2886901ACE1C2400568400 /* LibraryCell.m in Sources */,
 				5B2750291AD30C47004CC2C4 /* UIImage+Alpha.m in Sources */,
 				5B29B0C11ACCC57F00FA0B77 /* DetailViewController.m in Sources */,
 				5B28868D1ACDBA8200568400 /* LibraryData.m in Sources */,

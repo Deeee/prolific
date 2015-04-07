@@ -9,6 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface AddBookViewController : UIViewController<UIBarPositioningDelegate,UITextFieldDelegate>
-
-
 @end
