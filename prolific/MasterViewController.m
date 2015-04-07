@@ -269,7 +269,7 @@
             
         }
     }];
-    
+
 }
 
 
@@ -347,6 +347,8 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
+                                       [self fetchAndParseJson];
+                                       [self.tableView reloadData];
                                    }];
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
