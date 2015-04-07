@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -42,23 +43,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPe-Mi-U8c">
-                                <rect key="frame" x="16" y="147" width="658" height="60"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPe-Mi-U8c">
+                                <rect key="frame" x="16" y="147" width="568" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ECl-Sv-AwX">
-                                <rect key="frame" x="16" y="215" width="657" height="40"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ECl-Sv-AwX">
+                                <rect key="frame" x="16" y="215" width="568" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="rhg-7o-G1E"/>
+                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-pp-tng">
-                                <rect key="frame" x="16" y="263" width="567" height="40"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-pp-tng">
+                                <rect key="frame" x="16" y="263" width="568" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Kjg-cC-biI"/>
+                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -72,9 +79,12 @@
                                     <action selector="clickedOnCheckedout:" destination="JEX-9P-axG" eventType="touchUpInside" id="YeB-64-JRd"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C16-kG-OQ1">
-                                <rect key="frame" x="16" y="311" width="567" height="60"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C16-kG-OQ1">
+                                <rect key="frame" x="16" y="311" width="568" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="yfO-oU-Mh7"/>
+                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -82,11 +92,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="C16-kG-OQ1" firstAttribute="top" secondItem="wLf-pp-tng" secondAttribute="bottom" constant="8" symbolic="YES" id="2Bn-ug-kwx"/>
                             <constraint firstAttribute="centerX" secondItem="wLf-pp-tng" secondAttribute="centerX" id="4q9-pW-zle"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="width" secondItem="iPe-Mi-U8c" secondAttribute="width" id="6IJ-0W-Bnx"/>
+                            <constraint firstItem="ECl-Sv-AwX" firstAttribute="top" secondItem="iPe-Mi-U8c" secondAttribute="bottom" constant="8" symbolic="YES" id="8bw-EN-j8s"/>
+                            <constraint firstItem="iPe-Mi-U8c" firstAttribute="top" secondItem="CPW-fs-72e" secondAttribute="bottom" constant="8" symbolic="YES" id="Gk7-FJ-2gp"/>
                             <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="gU7-S5-iZ0" secondAttribute="bottom" constant="127" id="KrH-VM-rGH"/>
+                            <constraint firstItem="ECl-Sv-AwX" firstAttribute="width" secondItem="iPe-Mi-U8c" secondAttribute="height" multiplier="142:15" id="OsB-Lk-MOE"/>
                             <constraint firstAttribute="centerX" secondItem="C16-kG-OQ1" secondAttribute="centerX" id="PWJ-Gr-s89"/>
+                            <constraint firstItem="gU7-S5-iZ0" firstAttribute="top" secondItem="C16-kG-OQ1" secondAttribute="bottom" constant="72" id="QOT-XM-lDa"/>
                             <constraint firstAttribute="centerX" secondItem="ECl-Sv-AwX" secondAttribute="centerX" id="SJ1-y8-bIy"/>
+                            <constraint firstItem="wLf-pp-tng" firstAttribute="top" secondItem="ECl-Sv-AwX" secondAttribute="bottom" constant="8" symbolic="YES" id="VBQ-UL-ZKb"/>
                             <constraint firstAttribute="centerX" secondItem="iPe-Mi-U8c" secondAttribute="centerX" id="Vj5-DT-6kH"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="width" secondItem="ECl-Sv-AwX" secondAttribute="width" id="WC0-ca-8PK"/>
                             <constraint firstItem="CPW-fs-72e" firstAttribute="width" secondItem="wLf-pp-tng" secondAttribute="width" id="Yj6-u5-wel"/>
