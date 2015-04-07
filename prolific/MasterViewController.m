@@ -132,7 +132,6 @@
     else {
         tempImageView.image = userImage;
         self.backgroundImageView.image = userImage;
-        [self.searchDisplayController.searchResultsTableView setBackgroundView:tempImageView];
         self.backgroundImageView = tempImageView;
         self.tableView.backgroundView = tempImageView;
         
@@ -349,6 +348,7 @@
                                    {
                                        [self fetchAndParseJson];
                                        [self.tableView reloadData];
+                                       
                                    }];
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
