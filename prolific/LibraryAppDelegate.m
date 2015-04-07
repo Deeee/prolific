@@ -14,8 +14,11 @@
 @end
 
 @implementation LibraryAppDelegate
+
+//Background image and color for global tint
 @synthesize appBackground;
 @synthesize userChooseColor;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;

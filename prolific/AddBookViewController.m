@@ -60,6 +60,7 @@
                               forState:UIControlStateNormal];
 }
 
+/* Reset title to user choose color */
 -(void) resetTtile {
     _delegate = [UIApplication sharedApplication].delegate;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -75,11 +76,12 @@
 }
 
 
+/* Set UIBar position */
 -(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
     return UIBarPositionTopAttached;
 }
 
-
+/* Handle click action on 'done' button */
 -(IBAction)clickOnDone:(id) sender {
     if((![[self.bookTitle text] isEqualToString:@""]) || (![[self.author text] isEqualToString:@""] )|| (![[self.publisher text] isEqualToString:@""]) || (![[self.categories text] isEqualToString:@""])) {
         [self alertStatus:@"Leaving the screen with unsaved changes?" :@"Confirm your action" :0:2];
@@ -91,12 +93,17 @@
 
 }
 
+/* Handle background tap to end editing */
+- (IBAction)backgroundTap:(id)sender {
+    [self.view endEditing:YES];
+}
+
+/* Handle click action on 'submit' button */
 -(IBAction)clickOnSubmit:(id)sender {
     if([[self.bookTitle text] isEqualToString:@""] || [[self.author text] isEqualToString:@""] ) {
         [self alertStatus:@"Please make sure book title and author are filled" :@"Submit Failed!" :0:1];
     }
     else {
-        // Prepare for sending POST
         NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
         [mainQueue setMaxConcurrentOperationCount:5];
         NSURL *url = [NSURL URLWithString:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/books/"];
@@ -111,7 +118,7 @@
         [request setHTTPBody:[sendData dataUsingEncoding:NSUTF8StringEncoding]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-
+        
         [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
             NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
             if ([urlResponse statusCode] >= 200 && responseData != nil) {
@@ -126,13 +133,13 @@
         
     }
 }
-- (IBAction)backgroundTap:(id)sender {
-    [self.view endEditing:YES];
-}
+
+/* Show alert controller on the view */
 -(void) showAlert {
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+/* Handle different alert on the view */
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
@@ -172,6 +179,8 @@
     }
 
 }
+
+/* Handle click action on alert view */
 - (void)alertView:(UIAlertView *)alertView
     clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){

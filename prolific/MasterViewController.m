@@ -22,15 +22,16 @@
 @end
 
 @implementation MasterViewController {
-    UIAlertController *alertController;
-    BOOL flagForDeletion;
-    NSIndexPath *currentIndexPath;
-    UIImage *userImage;
-    BOOL isBlurred;
     NSString *blurButtonTitle;
     NSString *currentImageName;
+    UIAlertController *alertController;
+    BOOL flagForDeletion;
+    BOOL isBlurred;
+    NSIndexPath *currentIndexPath;
+    UIImage *userImage;
     UIColor *userChooseColor;
 }
+
 @synthesize originalRequest = _originalRequest;
 @synthesize filterResult = _filterResult;
 @synthesize delegate = _delegate;
@@ -47,7 +48,10 @@
     [[UISearchBar appearance] setAlpha:0.5];
     [[UISearchBar appearance] setBackgroundColor:[UIColor blackColor]];
     
+    //Setting default background
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    
+    //Global value initiate
     isBlurred = YES;
     blurButtonTitle = @"Set Blur Off";
     userImage = tempImageView.image;
@@ -80,7 +84,7 @@
     [super didReceiveMemoryWarning];
 }
 
-
+/* Init items that will be used on the view */
 - (void)viewInit {
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
     self.navigationItem.leftBarButtonItem = addButton;
@@ -89,6 +93,7 @@
 
 }
 
+/* Reset view controller title with user choose color */
 -(void) resetTtile {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.backgroundColor = [UIColor clearColor];
@@ -102,6 +107,7 @@
     self.navigationItem.titleView = label;
 }
 
+/* Set blur effect on background image */
 -(void) backGroundBlur:(UIImageView *)tempImageView {
     CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [gaussianBlurFilter setDefaults];
@@ -124,6 +130,7 @@
     self.tableView.backgroundView = tempImageView;
 }
 
+/* Set background image according to user's perference */
 -(void ) backGroundSet {
     UIImageView *tempImageView = self.backgroundImageView;
     if (isBlurred == YES) {
@@ -140,6 +147,7 @@
     
 }
 
+/* Return a random color */
 -(UIColor *)randomColor {
     CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
@@ -147,12 +155,15 @@
     UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
     return color;
 }
+
 #pragma mark - ActionSheet setup
+/* Set up action sheet */
 - (IBAction)clickOnActionSheet:(id)sender {
     alertController = [UIAlertController
                        alertControllerWithTitle:@"Actions"
                        message:@"Choose your action"
                        preferredStyle:UIAlertControllerStyleActionSheet];
+    // Refresh action to re-fetch data from server and update table
     UIAlertAction *refreshAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(@"Refresh", @"Refresh action")
                                     style:UIAlertActionStyleDefault
@@ -163,7 +174,7 @@
     [alertController addAction:refreshAction];
     
 
-    
+    // Feeling lucky action, change global tint to a random color
     UIAlertAction *luckyAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(@"I am feeling lucky!", @"lucky action")
                                     style:UIAlertActionStyleDefault
@@ -180,6 +191,8 @@
                                         
                                     }];
     [alertController addAction:luckyAction];
+    
+    // Change background image
     UIAlertAction *changeBackGroundAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(@"Change Background", @"Change Background action")
                                     style:UIAlertActionStyleDefault
@@ -189,6 +202,8 @@
                                         [self takePhoto];
                                     }];
     [alertController addAction:changeBackGroundAction];
+    
+    // Set blur effect on/off
     UIAlertAction *blurredAction = [UIAlertAction
                                     actionWithTitle:NSLocalizedString(blurButtonTitle, @"Blur action")
                                     style:UIAlertActionStyleDefault
@@ -206,6 +221,8 @@
                                         
                                     }];
     [alertController addAction:blurredAction];
+    
+    // Delete all book records
     UIAlertAction *deleteAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"Delete All Books", @"Delete action")
                                    style:UIAlertActionStyleDefault
@@ -236,6 +253,8 @@
                                        
                                    }];
     [alertController addAction:deleteAction];
+    
+    // Cancel action sheet
     UIAlertAction *cancelAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
                                    style:UIAlertActionStyleDefault
@@ -247,17 +266,16 @@
     [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
 }
 
+/* Delete all book records */
 - (void) deleteAllLibraryData {
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/clean"]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"DELETE"];
+    
     [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
-        
-        
         NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
-        
         if ([urlResponse statusCode] >= 200 && responseData != nil) {
             flagForDeletion = true;
             [self alertStatus:@"Delete all books succeed!" :@"Success" :1 :11];
@@ -265,19 +283,14 @@
         else {
             NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
             [self alertStatus:@"Delete failed" :errorMsg :1 :1];
-            
         }
     }];
-
 }
 
 
-- (void)insertNewBook:(id)sender {
-    _delegate.appBackground = [userImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
-    _delegate.userChooseColor = userChooseColor;
-    [self performSegueWithIdentifier:@"addBookSegue" sender:self];
-}
 
+
+/* Function to update table view data with user action */
 - (void) setDeleteFlagTrue {
     flagForDeletion = true;
     [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
@@ -285,16 +298,16 @@
     
 }
 
+/* Delete certain book with left swipe gesture */
 - (BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
     
-    // Prepare for sending POST
     flagForDeletion = false;
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",urlString]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"DELETE"];
-    // Send POST
+    
     [NSURLConnection sendAsynchronousRequest:request queue:mainQueue completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
         NSHTTPURLResponse *urlResponse = (NSHTTPURLResponse *)response;
         if ([urlResponse statusCode] >= 200 && responseData != nil) {
@@ -302,20 +315,18 @@
             [self alertStatus:@"Delete succeed!" :@"Success" :1 :11];
         }
         else {
-            
-            // Sign in fail alert
             NSString *errorMsg = [NSString stringWithFormat:@"An error occured, Status Code: %li, respsonse : %@",(long)urlResponse.statusCode,[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]];
             [self alertStatus:@"Delete failed" :errorMsg :1 :1];
             
         }
     }];
     return flagForDeletion;
-    
-    
 }
 
+/* Handle different alert on the view */
 - (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
+    // Alert for general Ok represent Cancel, no action fires
     if (mode == 1) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
@@ -325,6 +336,8 @@
         alertView.tag = tag;
         [alertView show];
     }
+    
+    // Alert for confriming user action
     else if (mode == 2){
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                             message:msg
@@ -335,6 +348,8 @@
         [alertView show];
         
     }
+    
+    // Alert for Ok represent refresh the table view
     else if (mode == 11) {
         alertController = [UIAlertController
                            alertControllerWithTitle:title
@@ -353,6 +368,8 @@
         [alertController addAction:okAction];
         [self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
     }
+    
+    // Alert for other cases (not used in this view)
     else {
         alertController = [UIAlertController
                            alertControllerWithTitle:@"Success"
@@ -373,11 +390,12 @@
     
 }
 
-
+// Show alert using alert controller
 -(void) showAlert {
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+// Show a certain alert controller
 -(void) showThisAlert:(UIAlertController *) alert {
     [self presentViewController:alert animated:YES completion:nil];
     
@@ -392,12 +410,17 @@
     
 }
 
-
-
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
 
 #pragma mark - Load Data into Table
-
-
 - (void)reloadTableWithData:(NSData *)responseData {
     NSError *error = nil;
     NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
@@ -410,6 +433,7 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Fetch data from server
 -(void) fetchAndParseJson {
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
@@ -429,7 +453,6 @@
             if (![newStr isEqualToString:@""]) {
                 [self performSelectorOnMainThread:@selector(reloadTableWithData:) withObject:responseData waitUntilDone:NO];
             }
-
         }
         else {
             
@@ -439,6 +462,7 @@
     }];
 }
 
+/* Handle redirection */
 - (NSURLRequest *)connection: (NSURLConnection *)connection
              willSendRequest: (NSURLRequest *)request
             redirectResponse: (NSURLResponse *)redirectResponse;
@@ -489,9 +513,7 @@
 }
 
 
-
 #pragma mark - Segues
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         _delegate.userChooseColor = userChooseColor;
@@ -517,9 +539,15 @@
 
     }
 }
+
+/* Insert new book, segue to addBook view */
+- (void)insertNewBook:(id)sender {
+    _delegate.appBackground = [userImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
+    _delegate.userChooseColor = userChooseColor;
+    [self performSegueWithIdentifier:@"addBookSegue" sender:self];
+}
+
 #pragma mark - Table View
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return [_filterResult count];
@@ -571,16 +599,6 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     
     }
-}
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    [self filterContentForSearchText:searchString
-                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
-                                      objectAtIndex:[self.searchDisplayController.searchBar
-                                                     selectedScopeButtonIndex]]];
-    
-    return YES;
 }
 
 
