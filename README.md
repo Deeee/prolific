@@ -28,7 +28,7 @@ Detail view
      transform to confirm button for submit
   4. Delete current record
   
-Flaws:
+Things I wish I could fix (Flaws):
   1. After Checked out a book, checked out by field doesn't get updated
   2. Check out button on detail view doesn't get its title text changed
      after entering editing mode
@@ -36,4 +36,5 @@ Flaws:
   4. Right upper UIBarItem on detail view doesn't get its font changed
   5. Search bar result table view doesn't get its background image
      changed
+  6. Save user choice of color and image into setting plist file.
   
