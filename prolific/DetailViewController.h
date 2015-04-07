@@ -25,6 +25,22 @@
 @property LibraryAppDelegate *delegate;
 
 -(void) showAlert;
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+-(void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode;
+-(void) showThisAlert:(UIAlertController *) alert;
 
+-(void) configureTextView:(UITextView *)textView WithText:(NSString *)text;
+-(void) configureTextViewNonEdit:(UITextView *)textView WithText:(NSString *)text;
+-(void) restoreBackToNonEdit;
+-(void) resetTtile;
+
+-(IBAction) clickedOnCheckedout:(id)sender;
+-(IBAction) clickedOnEdit:(id)sender;
+-(IBAction) postToFacebook:(id)sender;
+-(IBAction) postToTwitter:(id)sender;
+-(IBAction) backgroundTap:(id)sender;
+
+-(void) updateCheckedoutByWith:(NSString *)name;
+-(void) deleteLibraryData;
 @end
 

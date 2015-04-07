@@ -37,7 +37,7 @@
 @synthesize delegate = _delegate;
 
 
-- (void)awakeFromNib {
+-(void) awakeFromNib {
     [super awakeFromNib];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.clearsSelectionOnViewWillAppear = NO;
@@ -72,7 +72,7 @@
 
 
 
-- (void)viewDidLoad {
+-(void) viewDidLoad {
     [super viewDidLoad];
     [self resetTtile];
     [self viewInit];
@@ -80,12 +80,12 @@
 
 }
 
-- (void)didReceiveMemoryWarning {
+-(void) didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 /* Init items that will be used on the view */
-- (void)viewInit {
+-(void) viewInit {
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewBook:)];
     self.navigationItem.leftBarButtonItem = addButton;
     self.loadedLibraryData = [[NSMutableArray alloc] init];
@@ -131,7 +131,7 @@
 }
 
 /* Set background image according to user's perference */
--(void ) backGroundSet {
+-(void) backGroundSet {
     UIImageView *tempImageView = self.backgroundImageView;
     if (isBlurred == YES) {
         [self backGroundBlur:tempImageView];
@@ -148,7 +148,7 @@
 }
 
 /* Return a random color */
--(UIColor *)randomColor {
+-(UIColor *) randomColor {
     CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
     CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
@@ -158,7 +158,7 @@
 
 #pragma mark - ActionSheet setup
 /* Set up action sheet */
-- (IBAction)clickOnActionSheet:(id)sender {
+-(IBAction) clickOnActionSheet:(id)sender {
     alertController = [UIAlertController
                        alertControllerWithTitle:@"Actions"
                        message:@"Choose your action"
@@ -267,7 +267,7 @@
 }
 
 /* Delete all book records */
-- (void) deleteAllLibraryData {
+-(void) deleteAllLibraryData {
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143/clean"]];
@@ -291,7 +291,7 @@
 
 
 /* Function to update table view data with user action */
-- (void) setDeleteFlagTrue {
+-(void) setDeleteFlagTrue {
     flagForDeletion = true;
     [self.loadedLibraryData removeObjectAtIndex:currentIndexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -299,7 +299,7 @@
 }
 
 /* Delete certain book with left swipe gesture */
-- (BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
+-(BOOL) deleteLibraryDataAtUrl:(NSString *)urlString {
     
     flagForDeletion = false;
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
@@ -324,7 +324,7 @@
 }
 
 /* Handle different alert on the view */
-- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
+-(void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     // Alert for general Ok represent Cancel, no action fires
     if (mode == 1) {
@@ -403,14 +403,14 @@
 
 
 #pragma mark - Search Bar Delegate
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+- (void) filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"(title contains[c] %@) OR (categories contains[c] %@) OR (author contains[c] %@)", searchText,searchText,searchText];
     _filterResult = [self.loadedLibraryData filteredArrayUsingPredicate:resultPredicate];
     
 }
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+-(BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     [self filterContentForSearchText:searchString
                                scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
@@ -421,7 +421,7 @@
 }
 
 #pragma mark - Load Data into Table
-- (void)reloadTableWithData:(NSData *)responseData {
+-(void) reloadTableWithData:(NSData *)responseData {
     NSError *error = nil;
     NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
     [self.loadedLibraryData removeAllObjects];
@@ -463,7 +463,7 @@
 }
 
 /* Handle redirection */
-- (NSURLRequest *)connection: (NSURLConnection *)connection
+-(NSURLRequest *) connection: (NSURLConnection *)connection
              willSendRequest: (NSURLRequest *)request
             redirectResponse: (NSURLResponse *)redirectResponse;
 {
@@ -479,7 +479,7 @@
 
 
 #pragma mark - Take phote API
--(void)takePhoto {
+-(void) takePhoto {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
 #if TARGET_IPHONE_SIMULATOR
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -493,7 +493,7 @@
 }
 
 #pragma mark - Image picker delegate methdos
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+-(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     // Resize the image from the camera
     UIImage *scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
@@ -508,13 +508,13 @@
     [picker dismissModalViewControllerAnimated:YES];
 }
 
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+-(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissModalViewControllerAnimated:YES];
 }
 
 
 #pragma mark - Segues
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         _delegate.userChooseColor = userChooseColor;
         NSIndexPath *indexPath = nil;
@@ -541,14 +541,14 @@
 }
 
 /* Insert new book, segue to addBook view */
-- (void)insertNewBook:(id)sender {
+-(void) insertNewBook:(id)sender {
     _delegate.appBackground = [userImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height) interpolationQuality:kCGInterpolationHigh];
     _delegate.userChooseColor = userChooseColor;
     [self performSegueWithIdentifier:@"addBookSegue" sender:self];
 }
 
 #pragma mark - Table View
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return [_filterResult count];
         
@@ -557,7 +557,7 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"LibCell"];
 
     if (cell == nil)
@@ -587,11 +587,11 @@
 }
 
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL) tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         LibraryData *selectedData = [self.loadedLibraryData objectAtIndex:indexPath.row];
         currentIndexPath = indexPath;

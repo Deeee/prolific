@@ -30,7 +30,4 @@
     
 }
 
--(NSString *) getTitle {
-    return _title;
-}
 @end

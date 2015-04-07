@@ -13,28 +13,21 @@
 #define FONT_M_B(s) [UIFont fontWithName:@"Machinato-Bold" size:s]
 
 @interface AddBookViewController ()
-@property UIImageView *backgroundImageView;
-@property (weak, nonatomic) IBOutlet UINavigationItem *toolbarItem;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
-@property (weak, nonatomic) IBOutlet UITextField *bookTitle;
-@property (weak, nonatomic) IBOutlet UITextField *author;
-@property (weak, nonatomic) IBOutlet UITextField *publisher;
-@property (weak, nonatomic) IBOutlet UITextField *categories;
-@property (weak, nonatomic) IBOutlet UIButton *submit;
-@property LibraryAppDelegate *delegate;
-@property UIColor *userChooseColor;
+
 @end
 
 @implementation AddBookViewController {
     UIAlertController *alertController;
 }
+
 @synthesize author;
 @synthesize publisher;
 @synthesize categories;
 @synthesize delegate = _delegate;
 @synthesize backgroundImageView;
 @synthesize userChooseColor;
-- (void)viewDidLoad {
+
+-(void) viewDidLoad {
     [super viewDidLoad];
     _delegate = [UIApplication sharedApplication].delegate;
 
@@ -77,12 +70,12 @@
 
 
 /* Set UIBar position */
--(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
+-(UIBarPosition) positionForBar:(id<UIBarPositioning>)bar {
     return UIBarPositionTopAttached;
 }
 
 /* Handle click action on 'done' button */
--(IBAction)clickOnDone:(id) sender {
+-(IBAction) clickOnDone:(id) sender {
     if((![[self.bookTitle text] isEqualToString:@""]) || (![[self.author text] isEqualToString:@""] )|| (![[self.publisher text] isEqualToString:@""]) || (![[self.categories text] isEqualToString:@""])) {
         [self alertStatus:@"Leaving the screen with unsaved changes?" :@"Confirm your action" :0:2];
     }
@@ -94,12 +87,12 @@
 }
 
 /* Handle background tap to end editing */
-- (IBAction)backgroundTap:(id)sender {
+-(IBAction) backgroundTap:(id)sender {
     [self.view endEditing:YES];
 }
 
 /* Handle click action on 'submit' button */
--(IBAction)clickOnSubmit:(id)sender {
+-(IBAction) clickOnSubmit:(id)sender {
     if([[self.bookTitle text] isEqualToString:@""] || [[self.author text] isEqualToString:@""] ) {
         [self alertStatus:@"Please make sure book title and author are filled" :@"Submit Failed!" :0:1];
     }
@@ -140,7 +133,7 @@
 }
 
 /* Handle different alert on the view */
-- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
+-(void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
@@ -181,8 +174,8 @@
 }
 
 /* Handle click action on alert view */
-- (void)alertView:(UIAlertView *)alertView
-    clickedButtonAtIndex:(NSInteger)buttonIndex{
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if (buttonIndex == [alertView cancelButtonIndex]){
 
     }else{

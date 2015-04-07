@@ -23,6 +23,20 @@
 @property LibraryAppDelegate *delegate;
 
 -(void) fetchAndParseJson;
+-(void) viewInit;
+-(void) resetTtile;
+-(void) backGroundBlur:(UIImageView *)tempImageView;
+-(void) backGroundSet;
 
+-(void) deleteAllLibraryData;
+-(void) setDeleteFlagTrue;
+
+-(void) showAlert;
+-(void) showThisAlert:(UIAlertController *) alert;
+-(void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode;
+
+-(UIColor *) randomColor;
+-(IBAction)clickOnActionSheet:(id)sender;
+-(BOOL) deleteLibraryDataAtUrl:(NSString *)urlString;
 @end
 

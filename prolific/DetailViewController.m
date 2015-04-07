@@ -29,7 +29,7 @@
 @synthesize delegate =_delegate;
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(LibraryData*)newDetailItem {
+-(void) setDetailItem:(LibraryData*)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
         [self configureView];
@@ -72,7 +72,7 @@
 }
 
 /* Configure view with pref font */
-- (void)configureView {
+-(void) configureView {
     serverDateFormat = [[NSDateFormatter alloc] init];
     [serverDateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     if (self.detailItem) {
@@ -94,7 +94,7 @@
 }
 
 /* Restore view back to non-editible */
-- (void) restoreBackToNonEdit {
+-(void) restoreBackToNonEdit {
     self.bookTitle.editable = NO;
     self.author.editable = NO;
     self.publisher.editable = NO;
@@ -111,7 +111,7 @@
 }
 
 /* Handle action when click on checkout */
--(IBAction)clickedOnCheckedout:(id)sender {
+-(IBAction) clickedOnCheckedout:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Information Needed"
                                                         message:@"Please give your name and checkedout date"
                                                        delegate:self
@@ -123,7 +123,7 @@
 }
 
 /* Update record on server */
--(IBAction)clickedOnEdit:(id)sender {
+-(IBAction) clickedOnEdit:(id)sender {
     
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
@@ -185,7 +185,7 @@
 }
 
 /* Function to post on Facebook */
-- (IBAction)postToFacebook:(id)sender {
+-(IBAction) postToFacebook:(id)sender {
     SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
     
     [controller setInitialText:[NSString stringWithFormat:@"%@, I love this book!!",_detailItem.title]];
@@ -193,7 +193,7 @@
 }
 
 /* Function to pose on Twitter */
-- (IBAction)postToTwitter:(id)sender {
+-(IBAction) postToTwitter:(id)sender {
     SLComposeViewController *tweetSheet = [SLComposeViewController
                                            composeViewControllerForServiceType:SLServiceTypeTwitter];
     [tweetSheet setInitialText:[NSString stringWithFormat:@"%@, I love this book!!",_detailItem.title]];
@@ -297,7 +297,7 @@
 
 
 /* Update data on server when user check out book */
-- (void) updateCheckedoutByWith:(NSString *)name {
+-(void) updateCheckedoutByWith:(NSString *)name {
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://prolific-interview.herokuapp.com/5515bb0b2a638f0009b47143%@",_detailItem.url]];
@@ -327,7 +327,7 @@
 }
 
 /* Delete current record */
-- (void) deleteLibraryData {
+-(void) deleteLibraryData {
     
     NSOperationQueue *mainQueue = [[NSOperationQueue alloc] init];
     [mainQueue setMaxConcurrentOperationCount:5];
@@ -349,7 +349,7 @@
 }
 
 /* Handle alertview action */
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
     }else{
         NSString *name = [[alertView textFieldAtIndex:0] text];
@@ -364,7 +364,7 @@
 
 
 /* Handle different alert on the view */
-- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
+-(void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag :(int)mode
 {
     if (mode == 1) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
@@ -466,7 +466,7 @@
     [label sizeToFit];
 }
 
-- (void)viewDidLoad {
+-(void) viewDidLoad {
     [super viewDidLoad];
     [self.actionSheet setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                               [UIFont fontWithName:@"Machinato-ExtraLight" size:15.0], NSFontAttributeName,
@@ -484,7 +484,7 @@
     [self configureView];
 }
 
-- (void)didReceiveMemoryWarning {
+-(void) didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
